@@ -1,7 +1,7 @@
 using System;
 using Gtk;
 
-namespace GTK
+namespace G
 {
     class Program
     {

@@ -2,7 +2,7 @@ using System;
 using Gtk;
 using UI = Gtk.Builder.ObjectAttribute;
 
-namespace GTK
+namespace G
 {
     class MainWindow : Window
     {
@@ -16,7 +16,6 @@ namespace GTK
         private MainWindow(Builder builder) : base(builder.GetObject("MainWindow").Handle)
         {
             builder.Autoconnect(this);
-
             DeleteEvent += Window_DeleteEvent;
             _button1.Clicked += Button1_Clicked;
         }
