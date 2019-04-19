@@ -1,12 +1,23 @@
 ﻿using System;
+using Gtk;
 
 namespace MVVM
 {
     class Program
     {
-        static void Main(string[] args)
+        [STAThread]
+        public static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Application.Init();
+
+            var app = new Application("org.GTK.GTK", GLib.ApplicationFlags.None);
+            app.Register(GLib.Cancellable.Current);
+
+            var win = new Window("MEIN FENSTER");
+            app.AddWindow(win);
+
+            win.Show();
+            Application.Run();
         }
     }
 }
