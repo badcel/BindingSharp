@@ -37,7 +37,7 @@ namespace MVVM
                     continue;
 
                 var attr = (BindingAttribute) attrs[0];
-                //TODO add binding
+                var gobject = GetObject(field.Name);
             }
         }
     }
