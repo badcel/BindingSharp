@@ -1,3 +1,4 @@
+using GLib;
 using Gtk;
 using UI = Gtk.Builder.ObjectAttribute;
 
@@ -36,9 +37,18 @@ namespace MVVM
                 if (attrs == null || attrs.Length == 0)
                     continue;
 
-                var attr = (BindingAttribute) attrs[0];
-                var gobject = GetObject(field.Name);
+                var gtkObject = field.GetValue(this);
+                if(gtkObject is GLib.Object gobject)
+                {
+                    var attr = (BindingAttribute) attrs[0];
+                    gobject.AddNotification(attr.Source, (o, args) => NotifyViewModel(o, args.Property, viewModel, attr.Target));
+                }
             }
+        }
+
+        private void NotifyViewModel(object source, string sourceProp, object target, string targetProp)
+        {
+            //TODO
         }
     }
 }
