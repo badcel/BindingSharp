@@ -14,7 +14,14 @@ namespace MVVM
             app.Register(GLib.Cancellable.Current);
 
             var win = new Window("MEIN FENSTER");
+            win.DeleteEvent += (o, argss) => Application.Quit();
             app.AddWindow(win);
+
+            var contentControl = new ContentControl();
+            contentControl.SetContent(new CustomControlViewModel());
+
+            win.Add(contentControl);
+            contentControl.Show();
 
             win.Show();
             Application.Run();

@@ -13,7 +13,10 @@ namespace MVVM
                 view.SetupBindings(viewModel);
 
             if(instance is Widget widget)
+            {
                 this.Add(widget);
+                widget.Show();
+            }
         }
     }
 }

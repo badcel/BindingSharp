@@ -1,3 +1,4 @@
+using System;
 using GLib;
 using Gtk;
 using UI = Gtk.Builder.ObjectAttribute;
@@ -7,11 +8,10 @@ namespace MVVM
     public class CustomControl : Box, IView
     {
         [UI]
-        [Binding(nameof(Gtk.Button.Label), "Button")]
         private Button Button;
 
         [UI]
-        [Binding(nameof(Gtk.Label.Text), "Label")]
+        [Binding("label", "Label")]
         private Label Label;
 
         public CustomControl() : this(new Builder("CustomControl.glade")) { }
@@ -19,6 +19,8 @@ namespace MVVM
         public CustomControl(Builder builder): base(builder.GetObject("Box").Handle)
         {
             builder.Autoconnect(this);
+
+            Button.Clicked += (o, args) => Label.LabelProp = "FUBAR";
         }
 
         public void SetupBindings(object viewModel)
@@ -39,7 +41,7 @@ namespace MVVM
 
                 var gtkObject = field.GetValue(this);
                 if(gtkObject is GLib.Object gobject)
-                {
+                {Console.WriteLine("OK");
                     var attr = (BindingAttribute) attrs[0];
                     gobject.AddNotification(attr.Source, (o, args) => NotifyViewModel(o, args.Property, viewModel, attr.Target));
                 }
@@ -48,7 +50,15 @@ namespace MVVM
 
         private void NotifyViewModel(object source, string sourceProp, object target, string targetProp)
         {
-            //TODO
+            
+            if(source is GLib.Object gobject)
+            {
+
+                var value = gobject.GetProperty(sourceProp);
+                if(value is GLib.Value gvalue)
+                Console.WriteLine(gvalue.Val.ToString());
+                //TODO
+            }
         }
     }
 }
