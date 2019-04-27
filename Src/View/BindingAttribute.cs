@@ -3,7 +3,7 @@ using System;
 namespace MVVM
 {
     [AttributeUsage(AttributeTargets.Field)]
-    public class BindingAttribute : Attribute
+    public class BindingAttribute : Gtk.Builder.ObjectAttribute
     {
         public string Source { get; }
         public string Target { get; }

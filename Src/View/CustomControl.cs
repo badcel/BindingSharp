@@ -12,7 +12,6 @@ namespace MVVM
         [UI]
         private Button Button;
 
-        [UI]
         [Binding(nameof(Gtk.Label.LabelProp), "Label")]
         private Label Label;
 
