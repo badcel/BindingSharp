@@ -6,6 +6,8 @@ namespace MVVM
 {
     public class BindingBuilder : Builder
     {
+        //Use CompositeWidgets: https://blogs.gnome.org/tvb/2013/04/09/announcing-composite-widget-templates/
+        //https://blogs.gnome.org/tvb/2013/05/29/composite-templates-lands-in-vala/
         public BindingBuilder(string resource_name) : base(Assembly.GetCallingAssembly().GetManifestResourceStream(resource_name))
         {
         }
