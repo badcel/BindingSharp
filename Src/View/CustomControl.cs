@@ -5,26 +5,25 @@ using UI = Gtk.Builder.ObjectAttribute;
 
 namespace MVVM
 {
+    [Template("CustomControl.glade")]
     public class CustomControl : Box, IView
     {
         private readonly BindingBuilder builder;
 
-        [UI]
+        [Child]
         private Button Button;
 
-        [Binding(nameof(Gtk.Label.LabelProp), "Label")]
+        [Child]
         private Label Label;
 
-        public CustomControl() : this(new BindingBuilder("CustomControl.glade")) { }
-
-        public CustomControl(BindingBuilder builder) : base(builder.GetObject("Box").Handle)
+        public CustomControl()
         {
-            this.builder = builder ?? throw new ArgumentNullException(nameof(builder));
+
         }
 
         public void SetupBindings(object viewModel)
         {
-            builder.Autoconnect(this, viewModel);
+            //builder.Autoconnect(this, viewModel);
 
             Button.Clicked += (o, args) => Label.LabelProp = "FUBAR";
         }
