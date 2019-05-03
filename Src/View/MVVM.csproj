@@ -8,25 +8,25 @@
   <ItemGroup>
    <!--<PackageReference Include="GtkSharp" Version="3.22.24.37" />-->
     <Reference Include="GtkSharp">
-      <HintPath>/home/marcel/Programmieren/csharp/gtksharp/GtkSharp/BuildOutput/Release/GtkSharp.dll</HintPath>
+      <HintPath>../../../GtkSharp/BuildOutput/Release/GtkSharp.dll</HintPath>
     </Reference>
     <Reference Include="GLibSharp">
-      <HintPath>/home/marcel/Programmieren/csharp/gtksharp/GtkSharp/BuildOutput/Release/GLibSharp.dll</HintPath>
+      <HintPath>../../../GtkSharp/BuildOutput/Release/GLibSharp.dll</HintPath>
     </Reference>
     <Reference Include="AtkSharp">
-      <HintPath>/home/marcel/Programmieren/csharp/gtksharp/GtkSharp/BuildOutput/Release/AtkSharp.dll</HintPath>
+      <HintPath>../../../GtkSharp/BuildOutput/Release/AtkSharp.dll</HintPath>
     </Reference>
     <Reference Include="GioSharp">
-      <HintPath>/home/marcel/Programmieren/csharp/gtksharp/GtkSharp/BuildOutput/Release/GioSharp.dll</HintPath>
+      <HintPath>../../../GtkSharp/BuildOutput/Release/GioSharp.dll</HintPath>
     </Reference>
     <Reference Include="PangoSharp">
-      <HintPath>/home/marcel/Programmieren/csharp/gtksharp/GtkSharp/BuildOutput/Release/PangoSharp.dll</HintPath>
+      <HintPath>../../../GtkSharp/BuildOutput/Release/PangoSharp.dll</HintPath>
     </Reference>
     <Reference Include="GdkSharp">
-      <HintPath>/home/marcel/Programmieren/csharp/gtksharp/GtkSharp/BuildOutput/Release/GdkSharp.dll</HintPath>
+      <HintPath>../../../GtkSharp/BuildOutput/Release/GdkSharp.dll</HintPath>
     </Reference>
     <Reference Include="CairoSharp">
-      <HintPath>/home/marcel/Programmieren/csharp/gtksharp/GtkSharp/BuildOutput/Release/CairoSharp.dll</HintPath>
+      <HintPath>../../../GtkSharp/BuildOutput/Release/CairoSharp.dll</HintPath>
     </Reference>
   </ItemGroup>
 
