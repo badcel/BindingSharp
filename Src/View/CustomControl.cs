@@ -6,14 +6,14 @@ using UI = Gtk.Builder.ObjectAttribute;
 namespace MVVM
 {
     [Template("CustomControl.glade")]
-    public class CustomControl : Bin, IView
+    public class CustomControl : Widget, IView
     {
         private readonly BindingBuilder builder;
 
-        //[Child]
+        [Child]
         private Button Button;
 
-        //[Child]
+        [Child]
         private Label Label;
 
         public CustomControl()

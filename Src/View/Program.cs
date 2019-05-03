@@ -17,13 +17,12 @@ namespace MVVM
             win.DeleteEvent += (o, argss) => Application.Quit();
             app.AddWindow(win);
 
-            //var contentControl = new ContentControl();
-            //contentControl.SetContent(new CustomControlViewModel());
-            //win.Add(contentControl);
-            //contentControl.Show();
+            var contentControl = new ContentControl();
+            contentControl.SetContent(new CustomControlViewModel());
+            win.Add(contentControl);
+            contentControl.Show();
 
-            win.Add(new CustomControl());
-            //win.Add(new GtkWidget());
+            //win.Add(new CustomControl());
 
             win.Show();
             Application.Run();
