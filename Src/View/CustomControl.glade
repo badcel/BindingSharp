@@ -2,7 +2,7 @@
 <!-- Generated with glade 3.22.1 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
-  <template class="__gtksharp_1_MVVM_CustomControl" parent="GtkBin">
+  <template class="CustomControl" parent="GtkBin">
     <child>
         <object class="GtkButton" id="Button">
           <property name="label" translatable="yes">Drück mich</property>

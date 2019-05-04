@@ -15,7 +15,7 @@ namespace MVVM
             if(instance is Widget widget)
             {
                 this.Add(widget);
-                widget.Show();
+                widget.ShowAll();
             }
         }
     }
