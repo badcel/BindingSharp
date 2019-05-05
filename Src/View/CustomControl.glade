@@ -5,7 +5,7 @@
   <template class="CustomControl" parent="GtkBin">
     <child>
         <object class="GtkButton" id="Button">
-          <property name="label" translatable="yes">Drück mich</property>
+          <property name="label" translatable="yes">Drück mich nicht</property>
           <property name="visible">True</property>
           <property name="can_focus">True</property>
           <property name="receives_default">True</property>

@@ -23,9 +23,8 @@ namespace MVVM
             contentControl.Show();*/
 
             win.Add(new CustomControl());
-            //win.Add(new CustomControl());
 
-            win.Show();
+            win.ShowAll();
             Application.Run();
         }
     }
