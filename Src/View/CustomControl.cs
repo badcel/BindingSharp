@@ -13,8 +13,14 @@ namespace MVVM
 
         public CustomControl()
         {
-            Button.Clicked += (o, args) => Button.Label = "FUBAR";
         }
+
+        [Callback]
+        private void button_clicked(Button button)
+        {
+            button.Label = "Fubar";
+        } 
+
         public void SetupBindings(object viewModel)
         {
 
