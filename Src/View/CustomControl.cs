@@ -15,10 +15,9 @@ namespace MVVM
         {
         }
 
-        [Callback]
-        private void button_clicked(Button button)
+        private void button_clicked(object obj, EventArgs args)
         {
-            button.Label = "Fubar";
+            Button.Label = "Fubar";
         } 
 
         public void SetupBindings(object viewModel)
