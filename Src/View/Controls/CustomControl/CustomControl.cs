@@ -6,7 +6,7 @@ namespace MVVM
 {
     [TypeName(nameof(CustomControl))]
     [Template("CustomControl.glade")]
-    public class CustomControl : Bin, IView
+    public class CustomControl : Box
     {
         [Child]
         public Button Button;
@@ -19,10 +19,5 @@ namespace MVVM
         {
             Button.Label = "Fubar";
         } 
-
-        public void SetupBindings(object viewModel)
-        {
-
-        }
     }
 }

@@ -2,11 +2,11 @@ using System;
 
 namespace MVVM
 {
-    public class CustomControlViewModel : IViewModel
+    public class ViewModelControlViewModel : IViewModel
     {
-        public Type View => typeof(CustomControl);
+        public Type View => typeof(ViewModelControl);
 
-        private string label;
+        private string label = "MEIN LABEL NEU";
         public string Label
         {
             get { return label; }

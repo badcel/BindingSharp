@@ -7,12 +7,9 @@ namespace MVVM
     {
         public void SetContent(IViewModel viewModel)
         {
-            var instance = Activator.CreateInstance(viewModel.View);
+            var view = Activator.CreateInstance(viewModel.View, viewModel);
 
-            if(instance is IView view)
-                view.SetupBindings(viewModel);
-
-            if(instance is Widget widget)
+            if(view is Widget widget)
             {
                 this.Add(widget);
                 widget.ShowAll();

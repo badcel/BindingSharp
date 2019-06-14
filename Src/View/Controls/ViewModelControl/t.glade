@@ -2,15 +2,15 @@
 <!-- Generated with glade 3.22.1 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
-  <object class="GtkBox" id="Box">
+  <template class="Test" parent="GtkBox">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="orientation">vertical</property>
     <child>
-      <object class="GtkLabel" id="Label">
+      <object class="GtkLabel">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Test</property>
+        <property name="label" translatable="yes">label</property>
       </object>
       <packing>
         <property name="expand">False</property>
@@ -19,17 +19,10 @@
       </packing>
     </child>
     <child>
-      <object class="GtkButton" id="Button">
-        <property name="label" translatable="yes">Drück mich</property>
-        <property name="visible">True</property>
-        <property name="can_focus">True</property>
-        <property name="receives_default">True</property>
-      </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">1</property>
-      </packing>
+      <placeholder/>
     </child>
-  </object>
+    <child>
+      <placeholder/>
+    </child>
+  </template>
 </interface>

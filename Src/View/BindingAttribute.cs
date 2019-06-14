@@ -3,15 +3,15 @@ using System;
 namespace MVVM
 {
     [AttributeUsage(AttributeTargets.Field)]
-    public class BindingAttribute : Gtk.Builder.ObjectAttribute
+    public class BindingAttribute : Gtk.ChildAttribute
     {
-        public string Source { get; }
-        public string Target { get; }
+        public string ViewProperty { get; }
+        public string ViewModelProperty { get; }
 
-        public BindingAttribute(string source, string target)
+        public BindingAttribute(string viewProperty, string viewModelProperty)
         {
-            Source = source ?? throw new ArgumentNullException(nameof(source));
-            Target = target ?? throw new ArgumentNullException(nameof(target));
+            ViewProperty = viewProperty ?? throw new ArgumentNullException(nameof(viewProperty));
+            ViewModelProperty = viewModelProperty ?? throw new ArgumentNullException(nameof(viewModelProperty));
         }
     }
 }
