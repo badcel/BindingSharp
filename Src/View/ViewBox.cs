@@ -80,6 +80,10 @@ namespace MVVM
                 {
                     notifyPropertyChanged.PropertyChanged += OnPropertyChanged;
                 }
+                else
+                {
+                    Console.Error.WriteLine($"Can not forwared notify property changed events because viewModel does not implement {nameof(INotifyPropertyChanged)}");
+                }
             }
         }
 
