@@ -11,15 +11,15 @@ namespace MVVM
     {
         protected readonly object viewModel;
 
-        private Dictionary<object, List<string>> viewNotifications;
-        private Dictionary<object, List<string>> viewModelNotifications;
+        private Dictionary<object, Dictionary<string, string>> viewBindings; //{Gobject, {GObject Property, ViewModelProperty}}
+        private Dictionary<string, Dictionary<object, HashSet<string>>> viewModelBindings; //{ViewModelProperty, {GObject, List<GObject Property>}}
 
         public ViewBox(object viewModel)
         {
             this.viewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
 
-            viewNotifications = new Dictionary<object, List<string>>();
-            viewModelNotifications = new Dictionary<object, List<string>>();
+            viewBindings = new Dictionary<object, Dictionary<string, string>> ();
+            viewModelBindings = new Dictionary<string, Dictionary<object, HashSet<string>>>();
 
             Bind(this, viewModel);
         }
@@ -71,55 +71,116 @@ namespace MVVM
                     var viewProperty = ((PropertyAttribute)bindingViewPropAttr[0]).Name;
                     viewFieldGObject.SetProperty(viewProperty, new GLib.Value(viewModelPropValue));
                     
-                    AddViewNotification(viewFieldGObject, viewProperty, bindingAttr.ViewModelProperty);
-                    AddViewModelNotification();
+                    //Notification in both directions contains risk of endless loop!
+                    AddViewToViewModelNotification(viewFieldGObject, viewProperty, bindingAttr.ViewModelProperty);
+                    AddViewModelToViewNotification(bindingAttr.ViewModelProperty, viewFieldGObject, viewProperty);
+                }
 
-                    
+                if(viewModel is INotifyPropertyChanged notifyPropertyChanged)
+                {
+                    notifyPropertyChanged.PropertyChanged += OnPropertyChanged;
                 }
             }
         }
 
-        private void AddViewModelNotification()
+        private void AddViewModelToViewNotification(string viewModelProperty, GLib.Object gObject, string viewProperty)
         {
-            if(viewModel is INotifyPropertyChanged notifyPropertyChanged)
+            if(!viewModelBindings.ContainsKey(viewModelProperty))
             {
-                notifyPropertyChanged.PropertyChanged += OnPropertyChanged;
+                viewModelBindings[viewModelProperty] = new Dictionary<object, HashSet<string>>();
             }
-        }
 
-        private void AddViewNotification(GLib.Object viewFieldGObject, string viewProperty, string viewModelProperty)
-        {
-            //TODO DISPOSE EVENTS!!!
-            viewFieldGObject.AddNotification(viewProperty, (o, args) => NotifyViewModel(o, args.Property, viewModel, viewModelProperty));
-            if(viewNotifications.ContainsKey(viewFieldGObject))
+            if(!viewModelBindings[viewModelProperty].ContainsKey(gObject))
             {
-                viewNotifications[viewFieldGObject].Add(viewProperty);
+                viewModelBindings[viewModelProperty][gObject] = new HashSet<string>(){viewProperty};
             }
             else
             {
-                viewNotifications[viewFieldGObject] = new List<string>(){viewProperty};
+                viewModelBindings[viewModelProperty][gObject].Add(viewProperty);
+            }
+        }
+
+        private void AddViewToViewModelNotification(GLib.Object viewFieldGObject, string viewProperty, string viewModelProperty)
+        {
+            if(!viewBindings.ContainsKey(viewFieldGObject))
+            {
+                viewBindings[viewFieldGObject] = new Dictionary<string ,string>(){{viewProperty, viewModelProperty}};
+                viewFieldGObject.AddNotification(NotifyViewModel);
+            }
+            else
+            {
+                viewBindings[viewFieldGObject][viewProperty] = viewModelProperty;
             }
         }
 
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            var viewModelPropertyName = e.PropertyName;
+            if(!viewModelBindings.ContainsKey(viewModelPropertyName))
+                return;
 
+            var value = sender.GetType().GetProperty(viewModelPropertyName).GetValue(sender);
+
+            foreach(var keyValue in viewModelBindings[viewModelPropertyName])
+            {
+                if(keyValue.Key is GLib.Object gObject)
+                {
+                    foreach(var viewPropertyName in keyValue.Value)
+                    {
+                        var glibValue = new GLib.Value(value);
+                        gObject.SetProperty(viewPropertyName, glibValue);
+                    }
+                } 
+            }
         }
 
-        private void NotifyView()
+        private void NotifyViewModel(object source, NotifyArgs args)
         {
+            var sourceProp = args.Property;
 
-        }
+            if(!viewBindings.ContainsKey(source))
+                return;
 
-        private void NotifyViewModel(object source, string sourceProp, object target, string targetProp)
-        {
+            if(!viewBindings[source].ContainsKey(sourceProp))
+                return;
+
             if (source is GLib.Object gobject)
             {
                 var value = gobject.GetProperty(sourceProp);
                 if (value is GLib.Value gvalue)
                 {
-                    var prop = target.GetType().GetProperty(targetProp);
-                    prop.SetValue(target, gvalue.Val);
+                    var viewModelPropertyName = viewBindings[source][sourceProp];
+                    var viewModelProp = viewModel.GetType().GetProperty(viewModelPropertyName);
+
+                    if(viewModelProp != null)
+                    {
+                        viewModelProp.SetValue(viewModel, gvalue.Val);
+                    }
+                    else
+                    {
+                        Console.Error.WriteLine($"Could not find property {viewModelPropertyName} on viewmodel type {viewModel.GetType().FullName}");
+                    }
+                }
+            }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+
+            if(disposing)
+            {
+                foreach(var obj in viewBindings.Keys)
+                {
+                    if(obj is GLib.Object gobject)
+                    {
+                        gobject.RemoveNotification(NotifyViewModel);
+                    }
+                }
+
+                if(viewModel is INotifyPropertyChanged notifyPropertyChanged)
+                {
+                    notifyPropertyChanged.PropertyChanged -= OnPropertyChanged;
                 }
             }
         }
