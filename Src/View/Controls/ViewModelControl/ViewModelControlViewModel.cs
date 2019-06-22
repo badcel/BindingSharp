@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows.Input;
 
 namespace MVVM
 {
@@ -10,8 +11,13 @@ namespace MVVM
 
         public Type View => typeof(ViewModelControl);
 
-        private string label = "MEIN LABEL NEU";
+        private Command myCommand;
+        public ICommand MyCommand
+        {
+            get { return myCommand; }    
+        }
 
+        private string label = "MEIN LABEL NEU";
         public string Label
         {
             get { return label; }
@@ -28,6 +34,16 @@ namespace MVVM
                 }
 
             }
+        }
+
+        public ViewModelControlViewModel()
+        {
+            myCommand = new Command((o) => ButtonAction());
+        }
+
+        private void ButtonAction()
+        {
+            Console.WriteLine("ViewModel: Button clicked");
         }
 
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
