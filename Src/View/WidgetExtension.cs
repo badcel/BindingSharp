@@ -102,7 +102,7 @@ namespace MVVM
 
         private static void BindProperty(Gtk.Widget view, object viewModel, FieldInfo viewField)
         {
-            var viewFieldBindingAttrs = viewField.GetCustomAttributes(typeof(BindingAttribute), false);
+            var viewFieldBindingAttrs = viewField.GetCustomAttributes(typeof(PropertyBindingAttribute), false);
 
             if (viewFieldBindingAttrs == null || viewFieldBindingAttrs.Length == 0)
                 return;
@@ -110,7 +110,7 @@ namespace MVVM
             var obj = viewField.GetValue(view);
             if (obj is GLib.Object viewFieldGObject)
             {
-                var bindingAttr = (BindingAttribute)viewFieldBindingAttrs[0];
+                var bindingAttr = (PropertyBindingAttribute)viewFieldBindingAttrs[0];
 
                 var viewModelProp = viewModel.GetType().GetProperty(bindingAttr.ViewModelProperty);
                 if(viewModelProp == null)

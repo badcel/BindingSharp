@@ -8,7 +8,7 @@ namespace MVVM
     [Template("ViewModelControl.glade")]
     public class ViewModelControl : Box
     {
-        [Binding(nameof(Gtk.Label.LabelProp), nameof(ViewModelControlViewModel.Label))]
+        [PropertyBinding(nameof(Gtk.Label.LabelProp), nameof(ViewModelControlViewModel.Label))]
         public Label Label;
 
         [CommandBinding(nameof(ViewModelControlViewModel.MyCommand))]
