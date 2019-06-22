@@ -44,6 +44,8 @@ namespace MVVM
         private void ButtonAction()
         {
             Console.WriteLine("ViewModel: Button clicked");
+            Label = "Test";
+            myCommand.SetCanExecute(false);
         }
 
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)

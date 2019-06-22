@@ -10,16 +10,13 @@ namespace MVVM
     {
         [Binding(nameof(Gtk.Label.LabelProp), nameof(ViewModelControlViewModel.Label))]
         public Label Label;
-        
+
+        [CommandBinding(nameof(ViewModelControlViewModel.MyCommand))]
+        public Button Button;        
 
         public ViewModelControl(object viewModel)
         {
             this.BindViewModel(viewModel);
-        }
-
-        private void button_clicked(object obj, EventArgs args)
-        {
-            Label.LabelProp = "aha";
         }
 
         protected override void Dispose(bool disposing)

@@ -13,6 +13,7 @@ namespace MVVM
         public Command(Action<object> execute)
         {
             this.execute = execute ?? throw new ArgumentNullException(nameof(execute));
+            canExecute = true;
         }
 
         public bool CanExecute(object parameter)
