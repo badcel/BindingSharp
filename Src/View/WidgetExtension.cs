@@ -11,8 +11,7 @@ namespace MVVM
 {
     public static class WidgetExtension
     {
-        private static Dictionary<Widget, List<Binding>> viewBindings = new Dictionary<Widget, List<Binding>>();
-        private static Dictionary<object, List<Binding>>  viewModelBindings = new Dictionary<object, List<Binding>>();
+        private static Dictionary<Widget, List<PropertyBinding>> propertyBindings = new Dictionary<Widget, List<PropertyBinding>>();
 
         private static Dictionary<Widget, List<CommandBinding>>  commandBindings = new Dictionary<Widget, List<CommandBinding>>();
 
@@ -33,7 +32,7 @@ namespace MVVM
         }
 
         #region BindCommand
-        
+
         private static void BindCommand(Gtk.Widget view, object viewModel, FieldInfo viewField)
         {
             var viewFieldBindingAttrs = viewField.GetCustomAttributes(typeof(CommandBindingAttribute), false);
@@ -60,9 +59,10 @@ namespace MVVM
             if(obj is Gtk.Button button)
             {
                 var command = (ICommand) viewModelCommand;
+                command.CanExecuteChanged += OnCanExecuteChanged;
+
                 button.Sensitive = command.CanExecute(null);
                 button.Clicked += OnButtonClicked;
-                command.CanExecuteChanged += OnCanExecuteChanged;
 
                 if(!commandBindings.ContainsKey(view))
                 {
@@ -138,32 +138,26 @@ namespace MVVM
                 var viewProperty = ((PropertyAttribute)bindingViewPropAttr[0]).Name;
                 viewFieldGObject.SetProperty(viewProperty, new GLib.Value(viewModelPropValue));
                 
-                AddBinding(view, new Binding(viewFieldGObject, viewProperty, viewModel, bindingAttr.ViewModelProperty));
+                AddBinding(view, new PropertyBinding(viewFieldGObject, viewProperty, viewModel, bindingAttr.ViewModelProperty));
             }
         }
 
-        private static void AddBinding(Widget widget, Binding binding)
+        private static void AddBinding(Widget widget, PropertyBinding binding)
         {
-            if(!viewBindings.ContainsKey(widget))
+            if(!propertyBindings.ContainsKey(widget))
             {
-                viewBindings[widget] = new List<Binding>();   
+                propertyBindings[widget] = new List<PropertyBinding>();   
             }            
-            viewBindings[widget].Add(binding);
+            propertyBindings[widget].Add(binding);
 
-            if(!viewModelBindings.ContainsKey(binding.ViewModel))
+            if(binding.ViewModel is INotifyPropertyChanged notifyPropertyChanged)
             {
-                viewModelBindings[binding.ViewModel] = new List<Binding>();
-
-                if(binding.ViewModel is INotifyPropertyChanged notifyPropertyChanged)
-                {
-                    notifyPropertyChanged.PropertyChanged += OnPropertyChanged;
-                }
-                else
-                {
-                    Console.Error.WriteLine($"Can not forward notify property changed events because viewModel does not implement {nameof(INotifyPropertyChanged)}");
-                }
+                notifyPropertyChanged.PropertyChanged += OnPropertyChanged;
             }
-            viewModelBindings[binding.ViewModel].Add(binding);
+            else
+            {
+                Console.Error.WriteLine($"Can not forward notify property changed events because viewModel does not implement {nameof(INotifyPropertyChanged)}");
+            }
 
             if(binding.View is GLib.Object gObject)
             {
@@ -179,7 +173,7 @@ namespace MVVM
         {
             var sourceProp = args.Property;
 
-            var bindings = viewBindings.SelectMany(x => x.Value).Where(x => x.View == source && x.ViewProp == sourceProp);
+            var bindings = propertyBindings.SelectMany(x => x.Value).Where(x => x.View == source && x.ViewProp == sourceProp);
 
             foreach(var binding in bindings)
             {
@@ -208,7 +202,7 @@ namespace MVVM
             
             var value = sender.GetType().GetProperty(viewModelPropertyName).GetValue(sender);
 
-            var bindings = viewBindings.SelectMany(x => x.Value).Where(x => x.ViewModel == sender && x.ViewModelProp == viewModelPropertyName);
+            var bindings = propertyBindings.SelectMany(x => x.Value).Where(x => x.ViewModel == sender && x.ViewModelProp == viewModelPropertyName);
 
             foreach(var binding in bindings)
             {
@@ -241,24 +235,20 @@ namespace MVVM
 
         private static void UnbindProperties(Gtk.Widget view)
         {
-            foreach(var binding in viewBindings[view])
+            foreach(var binding in propertyBindings[view])
             {
                 if(binding.View is GLib.Object gObject)
                 {
                     gObject.RemoveNotification(binding.ViewProp, NotifyViewModel);
                 }
 
-                var curViewModelBindings = viewModelBindings[binding.ViewModel];
-                curViewModelBindings.Remove(binding);
-
-                if(!curViewModelBindings.Any() && binding.ViewModel is INotifyPropertyChanged notifyPropertyChanged)
+                if(binding.ViewModel is INotifyPropertyChanged notifyPropertyChanged)
                 {
                     notifyPropertyChanged.PropertyChanged -= OnPropertyChanged;
                 }
             }
 
-            viewBindings.Remove(view);
-            viewModelBindings.Remove(view);
+            propertyBindings.Remove(view);
         }
         
     }
