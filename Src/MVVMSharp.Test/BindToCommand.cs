@@ -43,9 +43,29 @@ namespace MVVMSharp.Test.View
             Assert.ThrowsException<BindingException>(() => obj.Bind(viewModel.Object, nameof(ViewModel.ObjectProperty)));
         }
 
-        [TestMethod]
-        public void ForwardsICommandCanExecuteChangedEventToReferencedGtkButtonFieldIsSensitiveProperty()
+        [DataTestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
+        public void ForwardsICommandCanExecuteChangedEventToReferencedGtkButtonFieldIsSensitiveProperty(bool canExecute)
         {
+            var returnFist = !canExecute;
+            var returnLast = canExecute;
+
+            var button = new Mock<IButton>();
+            var command = new Mock<ICommand>();
+            command.Setup(x => x.CanExecute(It.IsAny<object>())).Returns(returnFist);
+            var viewModel = new Mock<ViewModel>();
+            viewModel.Setup(x => x.CommandProperty).Returns(command.Object);
+
+            var obj = new MVVMSharp.BindToCommand(button.Object);
+            obj.Bind(viewModel.Object,nameof(ViewModel.CommandProperty));
+
+            //Setup again, to return a different value, if event is raised
+            command.Setup(x => x.CanExecute(It.IsAny<object>())).Returns(returnLast);
+            command.Raise(x => x.CanExecuteChanged += null, EventArgs.Empty);
+
+            command.Verify(x => x.CanExecute(It.IsAny<object>()), Times.Once);
+            button.VerifySet(x => x.Sensitive = canExecute, Times.Once);
         }
 
         [DataTestMethod]
@@ -62,6 +82,7 @@ namespace MVVMSharp.Test.View
             var obj = new MVVMSharp.BindToCommand(button.Object);
             obj.Bind(viewModel.Object, nameof(ViewModel.CommandProperty));
 
+            command.Verify(x => x.CanExecute(It.IsAny<object>()), Times.Once);
             button.VerifySet(b => b.Sensitive = canExecute);
         }
 
