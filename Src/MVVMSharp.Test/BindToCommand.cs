@@ -11,6 +11,12 @@ namespace MVVMSharp.Test.View
         }
 
         [TestMethod]
+        public void ReportsErrorIfAttributeIsNotAssignedToAField()
+        {
+        }
+
+
+        [TestMethod]
         public void ReportsErrorIfAttributeDoesNotReferenceICommandInViewModel()
         {
         }
