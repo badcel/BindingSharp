@@ -9,7 +9,7 @@ using Gtk;
 
 namespace MVVM
 {
-    public static class WidgetExtension
+    /*public static class WidgetExtension
     {
         private static Dictionary<Widget, List<PropertyBinding>> propertyBindings = new Dictionary<Widget, List<PropertyBinding>>();
 
@@ -251,5 +251,5 @@ namespace MVVM
             propertyBindings.Remove(view);
         }
         
-    }
+    }*/
 }

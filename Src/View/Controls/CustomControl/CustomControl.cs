@@ -4,7 +4,7 @@ using Gtk;
 
 namespace MVVM
 {
-    [TypeName(nameof(CustomControl))]
+    /*[TypeName(nameof(CustomControl))]
     [Template("CustomControl.glade")]
     public class CustomControl : Box
     {
@@ -19,5 +19,5 @@ namespace MVVM
         {
             Button.Label = "Fubar";
         } 
-    }
+    }*/
 }

@@ -1,9 +1,9 @@
 using System;
 
-namespace MVVM
+namespace MVVMSharp.Gtk
 {
-   /*[AttributeUsage(AttributeTargets.Field)]
-    public class CommandBindingAttribute : Gtk.ChildAttribute
+   [AttributeUsage(AttributeTargets.Field)]
+    public class CommandBindingAttribute : Attribute
     {
         public string CommandProperty { get; }
 
@@ -11,5 +11,5 @@ namespace MVVM
         {
             CommandProperty = commandProperty ?? throw new ArgumentNullException(nameof(commandProperty));
         }
-    }*/
+    }
 }

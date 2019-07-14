@@ -2,7 +2,7 @@ using System;
 
 namespace MVVM
 {
-    [AttributeUsage(AttributeTargets.Field)]
+    /*[AttributeUsage(AttributeTargets.Field)]
     public class PropertyBindingAttribute : Gtk.ChildAttribute
     {
         public string ViewProperty { get; }
@@ -13,5 +13,5 @@ namespace MVVM
             ViewProperty = viewProperty ?? throw new ArgumentNullException(nameof(viewProperty));
             ViewModelProperty = viewModelProperty ?? throw new ArgumentNullException(nameof(viewModelProperty));
         }
-    }
+    }*/
 }

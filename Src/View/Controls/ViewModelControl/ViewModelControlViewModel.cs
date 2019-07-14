@@ -9,7 +9,7 @@ namespace MVVM
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public Type View => typeof(ViewModelControl);
+        public Type View => null; //typeof(ViewModelControl);
 
         private Command myCommand;
         public ICommand MyCommand

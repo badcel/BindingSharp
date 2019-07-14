@@ -4,7 +4,7 @@ using Gtk;
 
 namespace MVVM
 {
-    [TypeName(nameof(ViewModelControl))]
+    /*[TypeName(nameof(ViewModelControl))]
     [Template("ViewModelControl.glade")]
     public class ViewModelControl : Box
     {
@@ -28,5 +28,5 @@ namespace MVVM
                 this.Unbind();
             }
         }
-    }
+    }*/
 }

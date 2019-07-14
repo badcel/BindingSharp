@@ -1,6 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace MVVMSharp.Test.View
+namespace MVVMSharp.Test.Gtk.View
 {
     [TestClass]
     public class BindToProperty

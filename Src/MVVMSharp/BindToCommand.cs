@@ -2,11 +2,12 @@ using System;
 using System.Windows.Input;
 using Gtk;
 
-namespace MVVMSharp
+namespace MVVMSharp.Gtk
 {
-    public class BindToCommand
+    public class BindToCommand : IBindToCommand, IDisposable
     {
         private readonly IButton button;
+        private ICommand command;
 
         public BindToCommand(IButton button)
         {
@@ -26,8 +27,47 @@ namespace MVVMSharp
             if(property.PropertyType != typeof(ICommand))
                 throw new BindingException(viewModel, $"Property {commandPropertyName} is not an ICommand.");
 
-            var command = (ICommand) property.GetValue(viewModel);
+            command = (ICommand) property.GetValue(viewModel);
+            command.CanExecuteChanged += OnCommandCanExectueChanged;
+
+            button.Clicked += OnButtonBlicked;
             button.Sensitive = command.CanExecute(null);
         }
+
+        private void OnButtonBlicked(object sender, EventArgs args)
+        {
+            if(command != null)
+            {
+                command.Execute(null);
+            }
+        }
+
+        private void OnCommandCanExectueChanged(object sender, EventArgs args)
+        {
+            button.Sensitive = command.CanExecute(null);
+        }
+
+        #region IDisposable Support
+        private bool disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    if(button != null) button.Clicked -= OnButtonBlicked;
+                    if(command != null) command.CanExecuteChanged -= OnCommandCanExectueChanged;
+                }
+
+                disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
     }
 }
