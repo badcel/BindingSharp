@@ -1,4 +1,3 @@
-using System.Windows.Input;
 using Gtk;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -30,23 +29,28 @@ namespace MVVMSharp.Test.Gtk.View
         }
 
         [TestMethod]
-        public void BindViewModelBindsButtonToICommandOfViewModel(bool canExecute)
+        public void BindViewModelBindsButtonToICommandOfViewModel()
         {
-            var command = new Mock<ICommand>();
-            command.Setup(x => x.CanExecute(It.IsAny<object>())).Returns(canExecute);
             var viewModel = new Mock<TestData.ViewModel>();
-            viewModel.Setup(x => x.CommandProperty).Returns(command.Object);
             var button = new Mock<IButton>();
+            var bindToCommand = new Mock<IBindToCommand>();
 
             var view = new TestData.View.WithCommandBinding();
             view.Button = button.Object;
 
-            WidgetExtension.GetCommandBinding = null;
+            var buttonPassed = false;
+            MVVMSharp.Gtk.WidgetExtension.CommandBindingProvider = (IButton b) => 
+            { 
+                if(b == button.Object)
+                    buttonPassed = true;
+
+                return bindToCommand.Object;
+            };
             
             view.BindViewModel(viewModel.Object);
 
-            //TODO: Verifies only if sensitivity is sets and assumes that binding is working
-            button.VerifySet(x => x.Sensitive = canExecute);
+            Assert.IsTrue(buttonPassed);
+            bindToCommand.Verify(x => x.Bind(viewModel.Object, nameof(TestData.ViewModel.CommandProperty)));
         }
     }
 }
