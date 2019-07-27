@@ -1,4 +1,5 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MVVMSharp.Test.Gtk.View
 {
@@ -6,33 +7,21 @@ namespace MVVMSharp.Test.Gtk.View
     public class BindToProperty
     {
         [TestMethod]
-        public void ReportsErrorIfAttributeIsNotAssignedToAField()
+        public void CreateWithoutViewThrowsArgumentNullException()
         {
+            Assert.ThrowsException<ArgumentNullException>(() => new MVVMSharp.Gtk.BindToProperty(null, ""));
         }
 
         [TestMethod]
-        public void ReportsErrorIfAttributeDoesNotReferenceViewGlibProperty()
-        {}
+        public void CreateWithoutPropertyThrowsArgumentNullException()
+        {
+            Assert.ThrowsException<ArgumentNullException>(() => new MVVMSharp.Gtk.BindToProperty(new object(), null));
+        }
 
         [TestMethod]
-        public void ReportsErrorIfAttributeDoesNotReferenceAnViewModelINotifyPropertyChangedObject()
-        {}
-
-        [TestMethod]
-        public void ReportsErrorIfAttributeDoesNotReferenceAnPropertyOnViewModel()
-        {}
-
-        [TestMethod]
-        public void InitializeViewWithValueFromViewModel()
-        {}
-
-        [TestMethod]
-        public void ViewModelPropertyChangedUpdatesConnectedViewProperty()
-        {}
-
-        [TestMethod]
-        public void ViewNotifyEventUpdatesConnectedViewModelProperty()
-        {}
+        public void BindThrowsArgumentNullExceptionIfViewModelIsNull()
+        {
+        }
 
     }
 }
