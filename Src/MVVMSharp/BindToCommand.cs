@@ -51,7 +51,6 @@ namespace MVVMSharp.Gtk
         #region IDisposable Support
         private bool disposedValue = false;
 
-        [ExcludeFromCodeCoverage]
         protected virtual void Dispose(bool disposing)
         {
             if (!disposedValue)
@@ -66,7 +65,6 @@ namespace MVVMSharp.Gtk
             }
         }
 
-        [ExcludeFromCodeCoverage]
         public void Dispose()
         {
             Dispose(true);

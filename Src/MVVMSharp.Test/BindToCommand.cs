@@ -102,5 +102,31 @@ namespace MVVMSharp.Test.Gtk.View
             button.Raise( x => x.Clicked += null, EventArgs.Empty);
             command.Verify(x => x.Execute(It.IsAny<object>()), Times.Once);
         }
+
+        [TestMethod]
+        public void DisposeDeregistersButtonClickedEvent()
+        {
+            var button = new TestButton();
+            var obj = new MVVMSharp.Gtk.BindToCommand(button);
+
+            obj.Dispose();
+
+            Assert.IsTrue(button.ClickedEventWasRemoved);
+        }
+
+        [TestMethod]
+        public void DisposeDeregistersCommandCanExecuteChanged()
+        {
+            var command = new TestCommand();
+            var viewModel = new Mock<ViewModel>();
+            viewModel.Setup(x => x.CommandProperty).Returns(command);
+
+            var obj = new MVVMSharp.Gtk.BindToCommand(Mock.Of<IButton>());
+            obj.Bind(viewModel.Object, nameof(ViewModel.CommandProperty));
+
+            obj.Dispose();
+
+            Assert.IsTrue(command.CanExecuteChangedWasRemoved);
+        }
     }
 }
