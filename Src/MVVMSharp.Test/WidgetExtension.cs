@@ -33,7 +33,7 @@ namespace MVVMSharp.Test.Gtk.View
         {
             var viewModel = new Mock<TestData.ViewModel>();
             var button = new Mock<IButton>();
-            var bindToCommand = new Mock<IBindToCommand>();
+            var bindToCommand = new Mock<IBinder>();
 
             var view = new TestData.View.WithCommandBinding();
             view.Button = button.Object;

@@ -8,10 +8,10 @@ namespace MVVMSharp.Gtk
 {
     public static class WidgetExtension
     {
-        private static Dictionary<IWidget, HashSet<IBindToCommand>>  commandBindings = new Dictionary<IWidget, HashSet<IBindToCommand>>();
+        private static Dictionary<IWidget, HashSet<IBinder>>  commandBindings = new Dictionary<IWidget, HashSet<IBinder>>();
 
-        private static Func<IButton, IBindToCommand> commandBindingProvider;
-        public static Func<IButton, IBindToCommand> CommandBindingProvider
+        private static Func<IButton, IBinder> commandBindingProvider;
+        public static Func<IButton, IBinder> CommandBindingProvider
         {
             [ExcludeFromCodeCoverage]
             get
@@ -25,7 +25,7 @@ namespace MVVMSharp.Gtk
         }
 
         [ExcludeFromCodeCoverage]
-        private static IBindToCommand GtkCommandBindingProvider(IButton b)
+        private static IBinder GtkCommandBindingProvider(IButton b)
         {
             return new BindToCommand(b);
         }
@@ -59,7 +59,7 @@ namespace MVVMSharp.Gtk
             bindToCommand.Bind(viewModel, ((CommandBindingAttribute) viewFieldBindingAttrs[0]).CommandProperty);
 
             if(!commandBindings.ContainsKey(view))
-                commandBindings[view] = new HashSet<IBindToCommand>();
+                commandBindings[view] = new HashSet<IBinder>();
 
             commandBindings[view].Add(bindToCommand);
         }

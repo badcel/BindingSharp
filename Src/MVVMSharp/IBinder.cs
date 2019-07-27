@@ -1,6 +1,6 @@
 namespace MVVMSharp.Gtk
 {
-    public interface IBindToCommand 
+    public interface IBinder 
     {
         void Bind(object viewModel, string commandPropertyName);
     }

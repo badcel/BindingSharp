@@ -5,7 +5,7 @@ using Gtk;
 
 namespace MVVMSharp.Gtk
 {
-    public class BindToCommand : IBindToCommand, IDisposable
+    public class BindToCommand : IBinder, IDisposable
     {
         private readonly IButton button;
         private ICommand command;
