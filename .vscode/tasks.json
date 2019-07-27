@@ -4,9 +4,13 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build view",
-            "command": "dotnet build Src/View",
-            "type": "shell",
+            "label": "build old code",
+            "command": "dotnet",
+            "type": "process",
+            "args":[
+                "build",
+                "${workspaceFolder}/Src/View"
+            ],
             "group": "build",
             "presentation": {
                 "reveal": "silent"
@@ -14,14 +18,52 @@
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "build GTK",
-            "command": "dotnet build Src/Adapter/GTK",
-            "type": "shell",
-            "group": "build",
-            "presentation": {
-                "reveal": "silent"
+            "label": "build MVVM.Gtk",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/Src/MVVMSharp"
+            ],
+            "problemMatcher": "$msCompile",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "build GtkSharp",
+            "command": "./build.sh",
+            "type": "process",
+            "args": [
+                "--configuration",
+                "debug"
+            ],
+            "problemMatcher": "$msCompile",
+            "group": {
+                "kind": "build",
+                "isDefault": true
             },
-            "problemMatcher": "$msCompile"
-        }
+            "options": {
+                "cwd": "${workspaceFolder}/../GtkSharp"
+            }
+        },
+        {
+            "label": "test MVVM.Gtk",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "test",
+                "/p:CollectCoverage=true",
+                "/p:CoverletOutputFormat=lcov",
+                "/p:CoverletOutput=./coverage.info",
+                "${workspaceFolder}/Src/MVVMSharp.Test"
+            ],
+            "problemMatcher": "$msCompile",
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            }
+        },
     ]
 }
