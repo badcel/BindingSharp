@@ -1,3 +1,4 @@
+using GLib;
 using Gtk;
 using MVVMSharp.Gtk;
 
@@ -15,7 +16,7 @@ namespace MVVMSharp.Test.TestData.View
     {
         public bool Sensitive { get; set; }
 
-        [CommandBinding(nameof(ViewModel.CommandProperty))]
+        [CommandBinding(nameof(TestData.ViewModel.WithCommandProperty.CommandProperty))]
         public object Button;
     }
 
@@ -23,7 +24,17 @@ namespace MVVMSharp.Test.TestData.View
     {
         public bool Sensitive { get; set; }
 
-        [CommandBinding(nameof(ViewModel.CommandProperty))]
+        [CommandBinding(nameof(TestData.ViewModel.WithCommandProperty.CommandProperty))]
         public IButton Button;
+    }
+
+    public interface WithObjectProperty
+    {
+        object ObjectProperty { get; }
+    }
+
+    public interface WithGlibObjectParent : GLib.IObject
+    {
+        object ObjectProperty { get; }
     }
 }

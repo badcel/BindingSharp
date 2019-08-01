@@ -6,12 +6,12 @@ using MVVMSharp.Gtk;
 namespace MVVMSharp.Test.Gtk.View
 {
     [TestClass]
-    public class WidgetExtension
+    public class WidgetExtensionTest
     {
         [TestMethod]
         public void BindViewModelIgnoresPropertiesWithoutCommandBindingAttribute()
         {
-            var viewModel = new Mock<TestData.ViewModel>();
+            var viewModel = new Mock<TestData.ViewModel.WithCommandProperty>();
             var view = new TestData.View.WithoutCommandBinding();
 
             view.BindViewModel(viewModel.Object);
@@ -22,7 +22,7 @@ namespace MVVMSharp.Test.Gtk.View
         [TestMethod]
         public void BindViewModelThrowsBindingExceptionIfCommandBindingAttributeIsNotSetOnIButtonField()
         {
-            var viewModel = new Mock<TestData.ViewModel>();
+            var viewModel = new Mock<TestData.ViewModel.WithCommandProperty>();
             var view = new TestData.View.WithCommandBindingWithoutIButton();
 
             Assert.ThrowsException<BindingException>(() => view.BindViewModel(viewModel.Object));
@@ -31,7 +31,7 @@ namespace MVVMSharp.Test.Gtk.View
         [TestMethod]
         public void BindViewModelBindsButtonToICommandOfViewModel()
         {
-            var viewModel = new Mock<TestData.ViewModel>();
+            var viewModel = new Mock<TestData.ViewModel.WithCommandProperty>();
             var button = new Mock<IButton>();
             var bindToCommand = new Mock<IBinder>();
 
@@ -50,7 +50,7 @@ namespace MVVMSharp.Test.Gtk.View
             view.BindViewModel(viewModel.Object);
 
             Assert.IsTrue(buttonPassed);
-            bindToCommand.Verify(x => x.Bind(viewModel.Object, nameof(TestData.ViewModel.CommandProperty)));
+            bindToCommand.Verify(x => x.Bind(viewModel.Object, nameof(TestData.ViewModel.WithCommandProperty.CommandProperty)));
         }
     }
 }
