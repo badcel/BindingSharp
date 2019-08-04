@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using GLib;
 using Gtk;
 using MVVMSharp.Gtk;
@@ -33,7 +34,7 @@ namespace MVVMSharp.Test.TestData.View
         object ObjectProperty { get; }
     }
 
-    public interface WithGlibObjectParent : GLib.IObject
+    public interface WithINotifyPropertyChanged : INotifyPropertyChanged
     {
         object ObjectProperty { get; }
     }
