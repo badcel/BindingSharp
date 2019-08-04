@@ -19,14 +19,13 @@ namespace MVVMSharp.Gtk
             if(viewModel == null)
                 throw new ArgumentNullException(nameof(viewModel));
 
-            if(!(viewModel is INotifyPropertyChanged))
-                throw new BindingException(viewModel, $"ViewModel does not implement {nameof(INotifyPropertyChanged)}");
-
             var property = viewModel.GetType().GetProperty(commandPropertyName);
 
             if(property == null)
                 throw new BindingException(viewModel, $"Property {commandPropertyName} is not a property of viewmodel.");
 
+            if(!(viewModel is INotifyPropertyChanged))
+                throw new BindingException(viewModel, $"ViewModel does not implement {nameof(INotifyPropertyChanged)}");
         }
     }
 }
