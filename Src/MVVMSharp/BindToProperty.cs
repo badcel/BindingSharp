@@ -1,12 +1,18 @@
 using System;
 using System.ComponentModel;
+using System.Reflection;
 
 namespace MVVMSharp.Gtk
 {
-    public class BindToProperty : IBinder
+    public class BindToProperty : IBinder, IDisposable
     {
-        private object view;
+
+        private object viewModel;
+        private PropertyInfo viewModelPropertyInfo;
+
+        private INotifyPropertyChanged view;
         private string viewProperty;
+
 
         public BindToProperty(INotifyPropertyChanged view, string property)
         {
@@ -16,16 +22,48 @@ namespace MVVMSharp.Gtk
 
         public void Bind(object viewModel, string commandPropertyName)
         {
+            this.viewModel = viewModel;
+
             if(viewModel == null)
                 throw new ArgumentNullException(nameof(viewModel));
 
-            var property = viewModel.GetType().GetProperty(commandPropertyName);
+            viewModelPropertyInfo = viewModel.GetType().GetProperty(commandPropertyName);
 
-            if(property == null)
+            if(viewModelPropertyInfo == null)
                 throw new BindingException(viewModel, $"Property {commandPropertyName} is not a property of viewmodel.");
 
             if(!(viewModel is INotifyPropertyChanged))
                 throw new BindingException(viewModel, $"ViewModel does not implement {nameof(INotifyPropertyChanged)}");
+
+            view.PropertyChanged += OnViewPropertyChanged;
         }
+
+        protected void OnViewPropertyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            var value = sender.GetType().GetProperty(args.PropertyName).GetValue(sender);
+            viewModelPropertyInfo.SetValue(viewModel, value);
+        }
+
+       #region IDisposable Support
+        private bool disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    if(view != null) view.PropertyChanged -= OnViewPropertyChanged;
+                }
+
+                disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
     }
 }

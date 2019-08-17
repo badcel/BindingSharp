@@ -38,4 +38,10 @@ namespace MVVMSharp.Test.TestData.View
     {
         object ObjectProperty { get; }
     }
+
+
+    public interface WithoutINotifyPropertyChanged
+    {
+        object ObjectProperty { get; }
+    }
 }

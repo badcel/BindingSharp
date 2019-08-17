@@ -27,7 +27,7 @@ namespace MVVMSharp.Test.Gtk.View
             Assert.ThrowsException<ArgumentNullException>(() => new MVVMSharp.Gtk.BindToProperty(Mock.Of<INotifyPropertyChanged>(), null));
         }
 
-                [TestMethod]
+        [TestMethod]
         public void BindThrowsBindingExceptionIfViewModelDoesNotImplementINotifyPropertyChanged()
         {
             var viewModel = new Mock<TestData.ViewModel.WithoutINotifyPropertyChangedImplementation>();
@@ -41,17 +41,17 @@ namespace MVVMSharp.Test.Gtk.View
         [TestMethod]
         public void ForwardsChangedPropertyFromViewToViewModel()
         {
-
-            /*/var viewModel = new Mock<TestData.ViewModel.WithINotifyPropertyChangedImplementation>();
+            object newValue = "1";
+            var viewModel = new Mock<TestData.ViewModel.WithINotifyPropertyChangedImplementation>();
             var view = new Mock<TestData.View.WithINotifyPropertyChanged>();
-            view.Setup(x => x.ObjectProperty).Returns("1");
-            
-            //Add INotifyPropertyChangedSignals to GLib.Object weil die NotifyArgs des NotifyHandlers von GLib.Object nicht geändert werden können
+            view.Setup(x => x.ObjectProperty).Returns(newValue;
 
-            var obj = new MVVMSharp.Gtk.BindToProperty(view, nameof(view.Object.ObjectProperty));
+            var obj = new MVVMSharp.Gtk.BindToProperty(view.Object, nameof(view.Object.ObjectProperty));
             obj.Bind(viewModel.Object, nameof(TestData.ViewModel.WithINotifyPropertyChangedImplementation.ObjectProperty));
 
-*/
+            view.Raise(x => x.PropertyChanged += null, new PropertyChangedEventArgs(nameof(view.Object.ObjectProperty)));
+
+            viewModel.VerifySet(x => x.ObjectProperty = newValue);
         }
     }
 }

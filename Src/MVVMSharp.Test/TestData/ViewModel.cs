@@ -16,6 +16,6 @@ namespace MVVMSharp.Test.TestData.ViewModel
 
     public interface WithINotifyPropertyChangedImplementation : INotifyPropertyChanged
     {
-        object ObjectProperty { get; }
+        object ObjectProperty { get; set; }
     }
 }
