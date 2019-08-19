@@ -12,7 +12,7 @@ namespace MVVMSharp.Test.Gtk.View
     {
         protected override IBinder GetObject()
         {
-            return new MVVMSharp.Gtk.BindToProperty(Mock.Of<INotifyPropertyChanged>(), "");
+            return new MVVMSharp.Gtk.BindToProperty(Mock.Of<TestData.View.WithINotifyPropertyChanged>(), nameof(TestData.View.WithINotifyPropertyChanged.ObjectProperty));
         }
 
         [TestMethod]
@@ -55,7 +55,23 @@ namespace MVVMSharp.Test.Gtk.View
         }
 
         [TestMethod]
-        public void DisposeDeregistersPropertyChangedEvent()
+        public void ForwardsChangedPropertyFromViewModelToView()
+        {
+            object newValue = "1";
+            var viewModel = new Mock<TestData.ViewModel.WithINotifyPropertyChangedImplementation>();
+            viewModel.Setup(x => x.ObjectProperty).Returns(newValue);
+            var view = new Mock<TestData.View.WithINotifyPropertyChanged>();
+
+            var obj = new MVVMSharp.Gtk.BindToProperty(view.Object, nameof(view.Object.ObjectProperty));
+            obj.Bind(viewModel.Object, nameof(TestData.ViewModel.WithINotifyPropertyChangedImplementation.ObjectProperty));
+
+            viewModel.Raise(x => x.PropertyChanged += null, new PropertyChangedEventArgs(nameof(viewModel.Object.ObjectProperty)));
+
+            view.VerifySet(x => x.ObjectProperty = newValue);
+        }
+
+        [TestMethod]
+        public void DisposeDeregistersPropertyChangedEventFromView()
         {
             var view = new TestView();
             var obj = new MVVMSharp.Gtk.BindToProperty(view, nameof(view.TestBool));
@@ -63,6 +79,19 @@ namespace MVVMSharp.Test.Gtk.View
             obj.Dispose();
 
             Assert.IsTrue(view.PropertyChangedEventRemoved);
+        }
+
+        [TestMethod]
+        public void DisposeDeregistersPropertyChangedEventFromViewModel()
+        {
+            var view = new TestView();
+            var viewModel = new TestViewModel();
+            var obj = new MVVMSharp.Gtk.BindToProperty(view, nameof(view.TestBool));
+            obj.Bind(viewModel, nameof(viewModel.TestBool));
+
+            obj.Dispose();
+
+            Assert.IsTrue(viewModel.PropertyChangedEventRemoved);
         }
     }
 }

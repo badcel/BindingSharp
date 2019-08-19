@@ -7,22 +7,24 @@ namespace MVVMSharp.Gtk
     public class BindToProperty : IBinder, IDisposable
     {
 
-        private object viewModel;
+        private INotifyPropertyChanged viewModel;
         private PropertyInfo viewModelPropertyInfo;
 
         private INotifyPropertyChanged view;
-        private string viewProperty;
+        private PropertyInfo viewPropertyInfo;
 
 
         public BindToProperty(INotifyPropertyChanged view, string property)
         {
             this.view = view ?? throw new System.ArgumentNullException(nameof(view));
-            this.viewProperty = property ?? throw new System.ArgumentNullException(nameof(property));
+            this.viewPropertyInfo = view.GetType().GetProperty(property);
+
+            if(viewPropertyInfo == null)
+                throw new BindingException(view, $"Property {property} is not a property of view.");
         }
 
         public void Bind(object viewModel, string commandPropertyName)
         {
-            this.viewModel = viewModel;
 
             if(viewModel == null)
                 throw new ArgumentNullException(nameof(viewModel));
@@ -32,16 +34,24 @@ namespace MVVMSharp.Gtk
             if(viewModelPropertyInfo == null)
                 throw new BindingException(viewModel, $"Property {commandPropertyName} is not a property of viewmodel.");
 
-            if(!(viewModel is INotifyPropertyChanged))
+            if(!(viewModel is INotifyPropertyChanged vmNotify))
                 throw new BindingException(viewModel, $"ViewModel does not implement {nameof(INotifyPropertyChanged)}");
 
             view.PropertyChanged += OnViewPropertyChanged;
+            this.viewModel = vmNotify;
+            this.viewModel.PropertyChanged += OnViewModelPropertyChanged;
         }
 
         protected void OnViewPropertyChanged(object sender, PropertyChangedEventArgs args)
         {
             var value = sender.GetType().GetProperty(args.PropertyName).GetValue(sender);
             viewModelPropertyInfo.SetValue(viewModel, value);
+        }
+
+        protected void OnViewModelPropertyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            var value = sender.GetType().GetProperty(args.PropertyName).GetValue(sender);
+            viewPropertyInfo.SetValue(view, value);
         }
 
        #region IDisposable Support
@@ -54,6 +64,7 @@ namespace MVVMSharp.Gtk
                 if (disposing)
                 {
                     if(view != null) view.PropertyChanged -= OnViewPropertyChanged;
+                    if(viewModel != null) viewModel.PropertyChanged -= OnViewModelPropertyChanged;
                 }
 
                 disposedValue = true;
