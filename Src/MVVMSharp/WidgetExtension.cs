@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Gtk;
@@ -24,10 +25,30 @@ namespace MVVMSharp.Gtk
             internal set { commandBindingProvider = value; }
         }
 
+        private static Func<INotifyPropertyChanged, string, IBinder> propertyBindingProvider;
+        public static Func<INotifyPropertyChanged, string, IBinder> PropertyBindingProvider
+        {
+            [ExcludeFromCodeCoverage]
+            get
+            {
+                if(propertyBindingProvider == null)
+                    propertyBindingProvider =  NotifyPropertyChangedBindingProvider;
+
+                return propertyBindingProvider;
+            }
+            internal set { propertyBindingProvider = value; }
+        }
+
         [ExcludeFromCodeCoverage]
         private static IBinder GtkCommandBindingProvider(IButton b)
         {
             return new BindToCommand(b);
+        }
+
+        [ExcludeFromCodeCoverage]
+        private static IBinder NotifyPropertyChangedBindingProvider(INotifyPropertyChanged n, string propertyName)
+        {
+            return new BindToProperty(n, propertyName);
         }
 
         public static void BindViewModel(this IWidget view, object viewModel)
@@ -43,6 +64,20 @@ namespace MVVMSharp.Gtk
             {
                 BindCommand(view, viewModel, viewField);
             }
+        }
+
+        private static void BindProperty(IWidget view, object viewModel, FieldInfo viewField)
+        {
+            var viewFieldBindingAttrs = viewField.GetCustomAttributes(typeof(PropertyBindingAttribute), false);
+
+            if (viewFieldBindingAttrs.Length == 0)
+                return;
+            if(!(view is INotifyPropertyChanged np))
+                throw new Exception();
+
+            //TODO: PropertyBinding needs Properties, but commands are fields
+            var bindToProperty = PropertyBindingProvider(np, viewField.Name);
+            bindToProperty.Bind(viewModel, )
         }
 
         private static void BindCommand(IWidget view, object viewModel, FieldInfo viewField)
