@@ -1,8 +1,9 @@
 using System.ComponentModel;
+using Gtk;
 
 namespace MVVMSharp.Test
 {
-    public class TestView : INotifyPropertyChanged
+    public class TestWidget : IWidget
     {
         public event PropertyChangedEventHandler PropertyChanged
         {
@@ -14,5 +15,6 @@ namespace MVVMSharp.Test
         public bool PropertyChangedEventRemoved;
 
         public bool TestBool { get; set; }
+        public bool Sensitive { get; set; }
     }
 }

@@ -5,11 +5,13 @@ namespace MVVMSharp.Gtk
     [AttributeUsage(AttributeTargets.Field)]
     public class PropertyBindingAttribute : Attribute
     {
-        public string Property { get; }
+        public string WidgetProperty { get; }
+        public string ViewModelProperty { get; }
 
-        public PropertyBindingAttribute(string property)
+        public PropertyBindingAttribute(string widgetProperty, string viewModelProperty)
         {
-            Property = property ?? throw new ArgumentNullException(nameof(property));
+            this.WidgetProperty = widgetProperty ?? throw new ArgumentNullException(nameof(widgetProperty));
+            this.ViewModelProperty = viewModelProperty ?? throw new ArgumentNullException(nameof(viewModelProperty));
         }
     }
 }

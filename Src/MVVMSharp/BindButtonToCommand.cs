@@ -4,12 +4,12 @@ using Gtk;
 
 namespace MVVMSharp.Gtk
 {
-    public class BindToCommand : IBinder, IDisposable
+    public class BindButtonToCommand : IBinder, IDisposable
     {
         private readonly IButton button;
         private ICommand command;
 
-        public BindToCommand(IButton button)
+        public BindButtonToCommand(IButton button)
         {
             this.button = button ?? throw new ArgumentNullException(nameof(button));
         }

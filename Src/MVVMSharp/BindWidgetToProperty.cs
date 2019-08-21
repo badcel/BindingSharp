@@ -1,26 +1,27 @@
 using System;
 using System.ComponentModel;
 using System.Reflection;
+using Gtk;
 
 namespace MVVMSharp.Gtk
 {
-    public class BindToProperty : IBinder, IDisposable
+    public class BindWidgetToProperty : IBinder, IDisposable
     {
 
         private INotifyPropertyChanged viewModel;
         private PropertyInfo viewModelPropertyInfo;
 
-        private INotifyPropertyChanged view;
-        private PropertyInfo viewPropertyInfo;
+        private IWidget widget;
+        private PropertyInfo widgetPropertyInfo;
 
 
-        public BindToProperty(INotifyPropertyChanged view, string property)
+        public BindWidgetToProperty(IWidget widget, string property)
         {
-            this.view = view ?? throw new System.ArgumentNullException(nameof(view));
-            this.viewPropertyInfo = view.GetType().GetProperty(property);
+            this.widget = widget ?? throw new System.ArgumentNullException(nameof(widget));
+            this.widgetPropertyInfo = widget.GetType().GetProperty(property);
 
-            if(viewPropertyInfo == null)
-                throw new BindingException(view, $"Property {property} is not a property of view.");
+            if(widgetPropertyInfo == null)
+                throw new BindingException(widget, $"Property {property} is not a property of widget.");
         }
 
         public void Bind(object viewModel, string commandPropertyName)
@@ -37,21 +38,27 @@ namespace MVVMSharp.Gtk
             if(!(viewModel is INotifyPropertyChanged vmNotify))
                 throw new BindingException(viewModel, $"ViewModel does not implement {nameof(INotifyPropertyChanged)}");
 
-            view.PropertyChanged += OnViewPropertyChanged;
+            widget.PropertyChanged += OnWidgetPropertyChanged;
             this.viewModel = vmNotify;
             this.viewModel.PropertyChanged += OnViewModelPropertyChanged;
         }
 
-        protected void OnViewPropertyChanged(object sender, PropertyChangedEventArgs args)
+        protected void OnWidgetPropertyChanged(object sender, PropertyChangedEventArgs args)
         {
-            var value = sender.GetType().GetProperty(args.PropertyName).GetValue(sender);
-            viewModelPropertyInfo.SetValue(viewModel, value);
+            if(args.PropertyName == widgetPropertyInfo.Name)
+            {
+                var value = widgetPropertyInfo.GetValue(sender);
+                viewModelPropertyInfo.SetValue(viewModel, value);
+            }
         }
 
         protected void OnViewModelPropertyChanged(object sender, PropertyChangedEventArgs args)
         {
-            var value = sender.GetType().GetProperty(args.PropertyName).GetValue(sender);
-            viewPropertyInfo.SetValue(view, value);
+            if(args.PropertyName == viewModelPropertyInfo.Name)
+            {
+                var value = viewModelPropertyInfo.GetValue(sender);
+                widgetPropertyInfo.SetValue(widget, value);
+            }
         }
 
        #region IDisposable Support
@@ -63,7 +70,7 @@ namespace MVVMSharp.Gtk
             {
                 if (disposing)
                 {
-                    if(view != null) view.PropertyChanged -= OnViewPropertyChanged;
+                    if(widget != null) widget.PropertyChanged -= OnWidgetPropertyChanged;
                     if(viewModel != null) viewModel.PropertyChanged -= OnViewModelPropertyChanged;
                 }
 

@@ -20,15 +20,6 @@ namespace MVVMSharp.Test.Gtk.View
         }
 
         [TestMethod]
-        public void BindViewModelThrowsBindingExceptionIfCommandBindingAttributeIsNotSetOnIButtonField()
-        {
-            var viewModel = new Mock<TestData.ViewModel.WithCommandProperty>();
-            var view = new TestData.View.WithCommandBindingWithoutIButton();
-
-            Assert.ThrowsException<BindingException>(() => view.BindViewModel(viewModel.Object));
-        }
-
-        [TestMethod]
         public void BindViewModelBindsButtonToICommandOfViewModel()
         {
             var viewModel = new Mock<TestData.ViewModel.WithCommandProperty>();
