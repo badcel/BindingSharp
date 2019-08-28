@@ -8,6 +8,8 @@ namespace MVVMSharp.Test.TestData.View
 
     public class WithoutCommandBinding : IWidget
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public bool Sensitive { get; set; }
 
         public IButton Button;
@@ -15,6 +17,8 @@ namespace MVVMSharp.Test.TestData.View
 
     public class WithCommandBindingWithoutIButton : IWidget
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public bool Sensitive { get; set; }
 
         [CommandBinding(nameof(TestData.ViewModel.WithCommandProperty.CommandProperty))]
@@ -23,6 +27,8 @@ namespace MVVMSharp.Test.TestData.View
 
     public class WithCommandBinding : IWidget
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+        
         public bool Sensitive { get; set; }
 
         [CommandBinding(nameof(TestData.ViewModel.WithCommandProperty.CommandProperty))]
@@ -34,7 +40,7 @@ namespace MVVMSharp.Test.TestData.View
         object ObjectProperty { get; }
     }
 
-    public interface WithINotifyPropertyChanged : INotifyPropertyChanged
+    public interface WidgetWithObjectPropery : IWidget
     {
         object ObjectProperty { get; set;}
     }

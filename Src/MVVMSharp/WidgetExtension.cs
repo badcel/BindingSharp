@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Gtk;
@@ -8,7 +9,7 @@ namespace MVVMSharp.Gtk
 {
     public static class WidgetExtension
     {
-        private static Dictionary<IWidget, HashSet<IBinder>>  commandBindings = new Dictionary<IWidget, HashSet<IBinder>>();
+        private static Dictionary<IWidget, HashSet<IBinder>>  bindings = new Dictionary<IWidget, HashSet<IBinder>>();
 
         private static Func<IButton, IBinder> commandBindingProvider;
         public static Func<IButton, IBinder> CommandBindingProvider
@@ -24,10 +25,30 @@ namespace MVVMSharp.Gtk
             internal set { commandBindingProvider = value; }
         }
 
+        private static Func<IWidget, string, IBinder> widgetBindingProvider;
+        public static Func<IWidget, string, IBinder> WidgetBindingProvider
+        {
+            [ExcludeFromCodeCoverage]
+            get
+            {
+                if(widgetBindingProvider == null)
+                    widgetBindingProvider =  GtkWidgetBindingProvider;
+
+                return widgetBindingProvider;
+            }
+            internal set { widgetBindingProvider = value; }
+        }
+
         [ExcludeFromCodeCoverage]
         private static IBinder GtkCommandBindingProvider(IButton b)
         {
-            return new BindToCommand(b);
+            return new BindButtonToCommand(b);
+        }
+
+        [ExcludeFromCodeCoverage]
+        private static IBinder GtkWidgetBindingProvider(IWidget widget, string propertyName)
+        {
+            return new BindWidgetToProperty(widget, propertyName);
         }
 
         public static void BindViewModel(this IWidget view, object viewModel)
@@ -41,27 +62,64 @@ namespace MVVMSharp.Gtk
 
             foreach (var viewField in viewFields)
             {
-                BindCommand(view, viewModel, viewField);
+                if(Attribute.IsDefined(viewField, typeof(CommandBindingAttribute)))
+                    BindCommand(view, viewModel, viewField);
+
+                if(Attribute.IsDefined(viewField, typeof(PropertyBindingAttribute)))
+                    BindProperty(view, viewModel, viewField);
+            }
+        }
+
+        private static T GetViewPropertyAs<T>(IWidget view, FieldInfo viewField)
+        {
+            if(!typeof(T).IsAssignableFrom(viewField.FieldType))
+                throw new Exception("??");
+
+            return (T) viewField.GetValue(view);
+        }
+
+        private static T GetViewPropertyAttribute<T>(FieldInfo viewField)
+        {
+            var viewFieldBindingAttrs = viewField.GetCustomAttributes(typeof(T), false);
+
+            if (viewFieldBindingAttrs.Length == 0)
+                return default(T);
+            else
+                return (T)viewFieldBindingAttrs[0];
+        }
+
+        private static void BindProperty(IWidget view, object viewModel, FieldInfo viewField)
+        {
+            var attribute = GetViewPropertyAttribute<PropertyBindingAttribute>(viewField);
+            if(attribute != null)
+            {
+                var widget = GetViewPropertyAs<IWidget>(view, viewField);
+                var binder = WidgetBindingProvider(widget, attribute.WidgetProperty);
+                binder.Bind(viewModel, attribute.ViewModelProperty);
+
+                CacheBinder(view, binder);
             }
         }
 
         private static void BindCommand(IWidget view, object viewModel, FieldInfo viewField)
         {
-            var viewFieldBindingAttrs = viewField.GetCustomAttributes(typeof(CommandBindingAttribute), false);
+            var attribute = GetViewPropertyAttribute<CommandBindingAttribute>(viewField);
+            if(attribute != null)
+            {
+                var button = GetViewPropertyAs<IButton>(view, viewField);
+                var binder = CommandBindingProvider(button);
+                binder.Bind(viewModel, attribute.CommandProperty);
 
-            if (viewFieldBindingAttrs.Length == 0)
-                return;
+                CacheBinder(view, binder);
+            }
+        }
 
-            if(!typeof(IButton).IsAssignableFrom(viewField.FieldType))
-                throw new BindingException(viewModel, $"View Field type of field {viewField.Name} must be assignable to {nameof(IButton)}!");
+        private static void CacheBinder(IWidget view, IBinder binder)
+        {
+            if(!bindings.ContainsKey(view))
+                bindings[view] = new HashSet<IBinder>();
 
-            var bindToCommand = CommandBindingProvider((IButton) viewField.GetValue(view));
-            bindToCommand.Bind(viewModel, ((CommandBindingAttribute) viewFieldBindingAttrs[0]).CommandProperty);
-
-            if(!commandBindings.ContainsKey(view))
-                commandBindings[view] = new HashSet<IBinder>();
-
-            commandBindings[view].Add(bindToCommand);
+            bindings[view].Add(binder);
         }
     }
 }

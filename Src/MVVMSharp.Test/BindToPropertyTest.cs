@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel;
 using GLib;
+using Gtk;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using MVVMSharp.Gtk;
@@ -12,28 +13,28 @@ namespace MVVMSharp.Test.Gtk.View
     {
         protected override IBinder GetObject()
         {
-            return new MVVMSharp.Gtk.BindToProperty(Mock.Of<TestData.View.WithINotifyPropertyChanged>(), nameof(TestData.View.WithINotifyPropertyChanged.ObjectProperty));
+            return new MVVMSharp.Gtk.BindWidgetToProperty(Mock.Of<TestData.View.WidgetWithObjectPropery>(), nameof(TestData.View.WidgetWithObjectPropery.ObjectProperty));
         }
 
         [TestMethod]
         public void CreateWithoutViewThrowsArgumentNullException()
         {
-            Assert.ThrowsException<ArgumentNullException>(() => new MVVMSharp.Gtk.BindToProperty(null, ""));
+            Assert.ThrowsException<ArgumentNullException>(() => new MVVMSharp.Gtk.BindWidgetToProperty(null, ""));
         }
 
         [TestMethod]
         public void CreateWithoutPropertyThrowsArgumentNullException()
         {
-            Assert.ThrowsException<ArgumentNullException>(() => new MVVMSharp.Gtk.BindToProperty(Mock.Of<INotifyPropertyChanged>(), null));
+            Assert.ThrowsException<ArgumentNullException>(() => new MVVMSharp.Gtk.BindWidgetToProperty(Mock.Of<IWidget>(), null));
         }
 
         [TestMethod]
         public void BindThrowsBindingExceptionIfViewModelDoesNotImplementINotifyPropertyChanged()
         {
             var viewModel = new Mock<TestData.ViewModel.WithoutINotifyPropertyChangedImplementation>();
-            var view = new Mock<TestData.View.WithINotifyPropertyChanged>();
+            var view = new Mock<TestData.View.WidgetWithObjectPropery>();
 
-            var obj = new MVVMSharp.Gtk.BindToProperty(view.Object, nameof(TestData.View.WithObjectProperty.ObjectProperty));
+            var obj = new MVVMSharp.Gtk.BindWidgetToProperty(view.Object, nameof(TestData.View.WithObjectProperty.ObjectProperty));
             
             Assert.ThrowsException<BindingException>(() => obj.Bind(viewModel.Object, nameof(TestData.ViewModel.WithoutINotifyPropertyChangedImplementation.ObjectProperty)));
         }
@@ -43,10 +44,10 @@ namespace MVVMSharp.Test.Gtk.View
         {
             object newValue = "1";
             var viewModel = new Mock<TestData.ViewModel.WithINotifyPropertyChangedImplementation>();
-            var view = new Mock<TestData.View.WithINotifyPropertyChanged>();
+            var view = new Mock<TestData.View.WidgetWithObjectPropery>();
             view.Setup(x => x.ObjectProperty).Returns(newValue);
 
-            var obj = new MVVMSharp.Gtk.BindToProperty(view.Object, nameof(view.Object.ObjectProperty));
+            var obj = new MVVMSharp.Gtk.BindWidgetToProperty(view.Object, nameof(view.Object.ObjectProperty));
             obj.Bind(viewModel.Object, nameof(TestData.ViewModel.WithINotifyPropertyChangedImplementation.ObjectProperty));
 
             view.Raise(x => x.PropertyChanged += null, new PropertyChangedEventArgs(nameof(view.Object.ObjectProperty)));
@@ -60,9 +61,9 @@ namespace MVVMSharp.Test.Gtk.View
             object newValue = "1";
             var viewModel = new Mock<TestData.ViewModel.WithINotifyPropertyChangedImplementation>();
             viewModel.Setup(x => x.ObjectProperty).Returns(newValue);
-            var view = new Mock<TestData.View.WithINotifyPropertyChanged>();
+            var view = new Mock<TestData.View.WidgetWithObjectPropery>();
 
-            var obj = new MVVMSharp.Gtk.BindToProperty(view.Object, nameof(view.Object.ObjectProperty));
+            var obj = new MVVMSharp.Gtk.BindWidgetToProperty(view.Object, nameof(view.Object.ObjectProperty));
             obj.Bind(viewModel.Object, nameof(TestData.ViewModel.WithINotifyPropertyChangedImplementation.ObjectProperty));
 
             viewModel.Raise(x => x.PropertyChanged += null, new PropertyChangedEventArgs(nameof(viewModel.Object.ObjectProperty)));
@@ -73,8 +74,8 @@ namespace MVVMSharp.Test.Gtk.View
         [TestMethod]
         public void DisposeDeregistersPropertyChangedEventFromView()
         {
-            var view = new TestView();
-            var obj = new MVVMSharp.Gtk.BindToProperty(view, nameof(view.TestBool));
+            var view = new TestWidget();
+            var obj = new MVVMSharp.Gtk.BindWidgetToProperty(view, nameof(view.TestBool));
 
             obj.Dispose();
 
@@ -84,9 +85,9 @@ namespace MVVMSharp.Test.Gtk.View
         [TestMethod]
         public void DisposeDeregistersPropertyChangedEventFromViewModel()
         {
-            var view = new TestView();
+            var view = new TestWidget();
             var viewModel = new TestViewModel();
-            var obj = new MVVMSharp.Gtk.BindToProperty(view, nameof(view.TestBool));
+            var obj = new MVVMSharp.Gtk.BindWidgetToProperty(view, nameof(view.TestBool));
             obj.Bind(viewModel, nameof(viewModel.TestBool));
 
             obj.Dispose();
