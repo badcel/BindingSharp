@@ -8,7 +8,7 @@
             "name": ".NET Core Launch view (console)",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build view",
+            "preLaunchTask": "build old code",
             // If you have changed target frameworks, make sure to update the program path.
             "program": "${workspaceFolder}/Src/View/bin/Debug/netcoreapp2.0/MVVM.dll",
             "args": [],

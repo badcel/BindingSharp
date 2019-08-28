@@ -2,7 +2,7 @@
 <!-- Generated with glade 3.22.1 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
-  <template class="ViewModelControl" parent="GtkBox">
+  <object class="GtkBox" id="ViewModelControl">
     <property name="can_focus">False</property>
     <property name="orientation">vertical</property>
     <child>
@@ -30,5 +30,5 @@
         <property name="position">1</property>
       </packing>
     </child>
-  </template>
+  </object>
 </interface>

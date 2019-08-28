@@ -95,9 +95,7 @@ namespace MVVMSharp.Gtk
             {
                 var widget = GetViewPropertyAs<IWidget>(view, viewField);
                 var binder = WidgetBindingProvider(widget, attribute.WidgetProperty);
-                binder.Bind(viewModel, attribute.ViewModelProperty);
-
-                CacheBinder(view, binder);
+                Bind(binder, view, viewModel, attribute.ViewModelProperty);
             }
         }
 
@@ -108,10 +106,14 @@ namespace MVVMSharp.Gtk
             {
                 var button = GetViewPropertyAs<IButton>(view, viewField);
                 var binder = CommandBindingProvider(button);
-                binder.Bind(viewModel, attribute.CommandProperty);
-
-                CacheBinder(view, binder);
+                Bind(binder, view, viewModel, attribute.CommandProperty);
             }
+        }
+
+        private static void Bind(IBinder binder, IWidget view, object viewModel, string propertyName)
+        {
+            binder.Bind(viewModel, propertyName);
+            CacheBinder(view, binder);
         }
 
         private static void CacheBinder(IWidget view, IBinder binder)
@@ -120,6 +122,24 @@ namespace MVVMSharp.Gtk
                 bindings[view] = new HashSet<IBinder>();
 
             bindings[view].Add(binder);
+        }
+
+        ///<summary>
+        /// Call this before disposing the widget
+        //</summary>
+        public static void DisposeBindings(this IWidget view)
+        {
+            if(bindings.ContainsKey(view))
+            {
+                foreach(var binder in bindings[view])
+                {
+                    if(binder is IDisposable disposable)
+                    {
+                        disposable.Dispose();
+                    }
+                }
+                bindings.Remove(view);
+            }
         }
     }
 }
