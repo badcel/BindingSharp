@@ -17,6 +17,12 @@ namespace MVVM
             get { return myCommand; }    
         }
 
+        private Command myCommand2;
+        public ICommand MyCommand2
+        {
+            get { return myCommand2; }    
+        }
+
         private string label = "MEIN LABEL NEU";
         public string Label
         {
@@ -39,6 +45,12 @@ namespace MVVM
         public ViewModelControlViewModel()
         {
             myCommand = new Command((o) => ButtonAction());
+            myCommand2 = new Command((o) => ButtonAction2());
+        }
+
+        private void ButtonAction2()
+        {
+            Console.WriteLine("Action2");
         }
 
         private void ButtonAction()

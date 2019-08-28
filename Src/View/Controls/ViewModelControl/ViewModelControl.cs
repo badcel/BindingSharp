@@ -16,6 +16,10 @@ namespace MVVM
         [UI]
         public Button Button;
 
+        [CommandBinding(nameof(ViewModelControlViewModel.MyCommand2))]
+        [UI]
+        public Button Button2;
+
         public ViewModelControl(object viewModel) : this(new Builder("ViewModelControl.glade"))
         {
             this.BindViewModel(viewModel);
