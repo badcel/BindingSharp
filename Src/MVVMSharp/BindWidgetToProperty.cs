@@ -25,7 +25,7 @@ namespace MVVMSharp.Gtk
 
         public void Bind(INotifyPropertyChanged viewModel, string commandPropertyName)
         {
-            Bind(viewModel, commandPropertyName);
+            Bind((object)viewModel, commandPropertyName);
         }
 
         public void Bind(object viewModel, string commandPropertyName)

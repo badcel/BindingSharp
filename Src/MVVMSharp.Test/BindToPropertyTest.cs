@@ -29,17 +29,6 @@ namespace MVVMSharp.Test.Gtk.View
         }
 
         [TestMethod]
-        public void BindThrowsBindingExceptionIfViewModelDoesNotImplementINotifyPropertyChanged()
-        {
-            var viewModel = new Mock<TestData.ViewModel.WithoutINotifyPropertyChangedImplementation>();
-            var view = new Mock<TestData.View.WidgetWithObjectPropery>();
-
-            var obj = new MVVMSharp.Gtk.BindWidgetToProperty(view.Object, nameof(TestData.View.WithObjectProperty.ObjectProperty));
-            
-            Assert.ThrowsException<BindingException>(() => obj.Bind(viewModel.Object, nameof(TestData.ViewModel.WithoutINotifyPropertyChangedImplementation.ObjectProperty)));
-        }
-
-        [TestMethod]
         public void ForwardsChangedPropertyFromViewToViewModel()
         {
             object newValue = "1";
