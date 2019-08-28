@@ -4,10 +4,10 @@ using System.Reflection;
 
 namespace MVVMSharp.Gtk
 {
-    public class BindToProperty : IBinder, IDisposable
+    public class BindToProperty : IBinder, IBinder<INotifyPropertyChanged>, IDisposable
     {
 
-        private INotifyPropertyChanged viewModel;
+        private object viewModel;
         private PropertyInfo viewModelPropertyInfo;
 
         private INotifyPropertyChanged view;
@@ -23,6 +23,11 @@ namespace MVVMSharp.Gtk
                 throw new BindingException(view, $"Property {property} is not a property of view.");
         }
 
+        public void Bind(INotifyPropertyChanged viewModel, string commandPropertyName)
+        {
+            Bind(viewModel, commandPropertyName);
+        }
+
         public void Bind(object viewModel, string commandPropertyName)
         {
 
@@ -34,12 +39,11 @@ namespace MVVMSharp.Gtk
             if(viewModelPropertyInfo == null)
                 throw new BindingException(viewModel, $"Property {commandPropertyName} is not a property of viewmodel.");
 
-            if(!(viewModel is INotifyPropertyChanged vmNotify))
-                throw new BindingException(viewModel, $"ViewModel does not implement {nameof(INotifyPropertyChanged)}");
+            this.viewModel = viewModel;
+            if(viewModel is INotifyPropertyChanged vmNotify)
+                vmNotify.PropertyChanged += OnViewModelPropertyChanged;
 
             view.PropertyChanged += OnViewPropertyChanged;
-            this.viewModel = vmNotify;
-            this.viewModel.PropertyChanged += OnViewModelPropertyChanged;
         }
 
         protected void OnViewPropertyChanged(object sender, PropertyChangedEventArgs args)
@@ -64,7 +68,7 @@ namespace MVVMSharp.Gtk
                 if (disposing)
                 {
                     if(view != null) view.PropertyChanged -= OnViewPropertyChanged;
-                    if(viewModel != null) viewModel.PropertyChanged -= OnViewModelPropertyChanged;
+                    if(viewModel != null && viewModel is INotifyPropertyChanged vmNotify) vmNotify.PropertyChanged -= OnViewModelPropertyChanged;
                 }
 
                 disposedValue = true;
