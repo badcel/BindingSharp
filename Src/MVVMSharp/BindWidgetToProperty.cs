@@ -20,7 +20,7 @@ namespace MVVMSharp.Gtk
             this.widgetPropertyInfo = widget.GetType().GetProperty(property);
 
             if(widgetPropertyInfo == null)
-                throw new BindingException(widget, $"Property {property} is not a property of widget.");
+                throw new BindingException(null, widget, $"Property {property} is not a property of widget.");
         }
 
         public void Bind(INotifyPropertyChanged viewModel, string commandPropertyName)
@@ -37,7 +37,7 @@ namespace MVVMSharp.Gtk
             viewModelPropertyInfo = viewModel.GetType().GetProperty(commandPropertyName);
 
             if(viewModelPropertyInfo == null)
-                throw new BindingException(viewModel, $"Property {commandPropertyName} is not a property of viewmodel.");
+                throw new BindingException(widget, viewModel, $"Property {commandPropertyName} is not a property of viewmodel.");
 
             this.viewModel = viewModel;
             if(viewModel is INotifyPropertyChanged vmNotify)

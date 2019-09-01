@@ -1,13 +1,18 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MVVMSharp
 {
     public class BindingException : Exception
     {
-        public object Target { get; }
-        public BindingException(object target, string message) : base(message)
+        public object ViewModel { [ExcludeFromCodeCoverage] get; }
+
+        public object View { [ExcludeFromCodeCoverage] get; }
+
+        public BindingException(object view, object viewmodel, string message) : base(message)
         {
-            Target = target;
+            ViewModel = viewmodel;
+            View = view;
         }
     }
 }

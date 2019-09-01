@@ -29,6 +29,14 @@ namespace MVVMSharp.Test.Gtk.View
         }
 
         [TestMethod]
+        public void CreateWithUnknownPropertyThrowsBindingException()
+        {
+            var view = new Mock<TestData.View.WidgetWithObjectPropery>();
+
+            Assert.ThrowsException<BindingException>(() => new MVVMSharp.Gtk.BindWidgetToProperty(view.Object, "Wrong"));
+        }
+
+        [TestMethod]
         public void ForwardsChangedPropertyFromViewToViewModel()
         {
             object newValue = "1";

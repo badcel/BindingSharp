@@ -22,10 +22,10 @@ namespace MVVMSharp.Gtk
             var property = viewModel.GetType().GetProperty(commandPropertyName);
 
             if(property == null)
-                throw new BindingException(viewModel, $"Property {commandPropertyName} is not a property of viewmodel.");
+                throw new BindingException(button, viewModel, $"Property {commandPropertyName} is not a property of viewmodel.");
 
             if(property.PropertyType != typeof(ICommand))
-                throw new BindingException(viewModel, $"Property {commandPropertyName} is not an ICommand.");
+                throw new BindingException(button, viewModel, $"Property {commandPropertyName} is not an ICommand.");
 
             command = (ICommand) property.GetValue(viewModel);
             command.CanExecuteChanged += OnCommandCanExectueChanged;
