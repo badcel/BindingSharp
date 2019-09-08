@@ -3,7 +3,7 @@ using Gtk;
 
 namespace MVVM
 {
-    public class ContentControl : Bin
+    public class ShowViewModelControl : Bin
     {
         public void SetContent(IViewModel viewModel)
         {

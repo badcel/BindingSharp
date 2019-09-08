@@ -17,7 +17,7 @@ namespace MVVM
             win.DeleteEvent += (o, argss) => Application.Quit();
             app.AddWindow(win);
 
-            var contentControl = new ContentControl();
+            var contentControl = new ShowViewModelControl();
             contentControl.SetContent(new ViewModelControlViewModel());
             win.Add(contentControl);
             contentControl.Show();
