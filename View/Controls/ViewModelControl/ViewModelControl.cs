@@ -1,4 +1,6 @@
 using System;
+using System.IO;
+using System.Reflection;
 using GLib;
 using Gtk;
 using MVVMSharp.Gtk;
@@ -23,6 +25,22 @@ namespace MVVM
         public ViewModelControl(object viewModel) : this(new Builder("ViewModelControl.glade"))
         {
             this.BindViewModel(viewModel);
+
+            Button2.Clicked += Restyle;
+        }
+
+        private void Restyle(object sender, EventArgs args)
+        {
+            var p = new CssProvider();
+
+            using(var stream = Assembly.GetEntryAssembly().GetManifestResourceStream("invalid.css"))
+            using(var reader = new StreamReader(stream))
+            {
+                p.LoadFromData(reader.ReadToEnd());   
+            }
+
+            Button2.StyleContext.AddProvider(p, uint.MaxValue);
+            Button2.StyleContext.AddClass("invalid");
         }
 
         private ViewModelControl(Builder builder) : base(builder.GetObject("ViewModelControl").Handle)
