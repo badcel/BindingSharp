@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Input;
 
-namespace MVVMSharp.Test
+namespace MVVMSharp.Test.TestData
 {
     internal class TestCommand : ICommand
     {

@@ -2,11 +2,11 @@ using System;
 using System.ComponentModel;
 using Gtk;
 
-namespace MVVMSharp.Test
+namespace MVVMSharp.Test.TestData
 {
     internal class TestButton : IButton
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged {add {} remove {}}
 
         public event EventHandler Clicked
         {

@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Gtk;
+using MVVMSharp.Core;
 
 namespace MVVMSharp.Gtk
 {
@@ -48,7 +48,7 @@ namespace MVVMSharp.Gtk
         [ExcludeFromCodeCoverage]
         private static IBinder GtkWidgetBindingProvider(IWidget widget, string propertyName)
         {
-            return new BindWidgetToProperty(widget, propertyName);
+            return new BindINotifyPropertyChanged(widget, propertyName);
         }
 
         public static void BindViewModel(this IWidget view, object viewModel)

@@ -9,11 +9,11 @@
   <ItemGroup>
     <ProjectReference Include="../MVVMSharp/MVVMSharp.csproj" />
       <Reference Include="GtkSharp">
-        <HintPath>../../../GtkSharp/BuildOutput/Debug/GtkSharp.dll</HintPath>
+        <HintPath>../../GtkSharp/BuildOutput/Debug/GtkSharp.dll</HintPath>
       </Reference>
           <ProjectReference Include="../MVVMSharp/MVVMSharp.csproj" />
       <Reference Include="GLibSharp">
-        <HintPath>../../../GtkSharp/BuildOutput/Debug/GLibSharp.dll</HintPath>
+        <HintPath>../../GtkSharp/BuildOutput/Debug/GLibSharp.dll</HintPath>
       </Reference>
   </ItemGroup>
 

@@ -1,8 +1,8 @@
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MVVMSharp.Gtk;
+using MVVMSharp.Core;
 
-namespace MVVMSharp.Test.Gtk.View
+namespace MVVMSharp.Test.Core
 {
     [TestClass]
     public abstract class IBinderTest
@@ -10,14 +10,14 @@ namespace MVVMSharp.Test.Gtk.View
         protected abstract IBinder GetObject();
 
         [TestMethod]
-        public void BindThrowsArgumentNullExceptionIfViewModelIsNull()
+        public void BindThrowsArgumentNullExceptionIfTargetIsNull()
         {
             var obj = GetObject();
             Assert.ThrowsException<ArgumentNullException>(() => obj.Bind(null, ""));
         }
 
         [TestMethod]
-        public void BindThrowsBindingExceptionIfAttributeIsNotFoundInViewModel()
+        public void BindThrowsBindingExceptionIfAttributeIsNotFoundInTarget()
         {
             var obj = GetObject();
 

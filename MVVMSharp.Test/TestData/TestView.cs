@@ -1,9 +1,9 @@
 using System.ComponentModel;
 using Gtk;
 
-namespace MVVMSharp.Test
+namespace MVVMSharp.Test.TestData
 {
-    public class TestWidget : IWidget
+    internal class TestWidget : IWidget
     {
         public event PropertyChangedEventHandler PropertyChanged
         {

@@ -1,8 +1,8 @@
 using System.ComponentModel;
 
-namespace MVVMSharp.Test
+namespace MVVMSharp.Test.TestData
 {
-    public class TestViewModel : INotifyPropertyChanged
+    internal class TestViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged
         {

@@ -2,32 +2,32 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
    <!--<PackageReference Include="GtkSharp" Version="3.22.24.37" />-->
    <ProjectReference Include="../MVVMSharp/MVVMSharp.csproj" />
     <Reference Include="GtkSharp">
-      <HintPath>../../../GtkSharp/BuildOutput/Debug/GtkSharp.dll</HintPath>
+      <HintPath>../../GtkSharp/BuildOutput/Debug/GtkSharp.dll</HintPath>
     </Reference>
     <Reference Include="GLibSharp">
-      <HintPath>../../../GtkSharp/BuildOutput/Debug/GLibSharp.dll</HintPath>
+      <HintPath>../../GtkSharp/BuildOutput/Debug/GLibSharp.dll</HintPath>
     </Reference>
     <Reference Include="AtkSharp">
-      <HintPath>../../../GtkSharp/BuildOutput/Debug/AtkSharp.dll</HintPath>
+      <HintPath>../../GtkSharp/BuildOutput/Debug/AtkSharp.dll</HintPath>
     </Reference>
     <Reference Include="GioSharp">
-      <HintPath>../../../GtkSharp/BuildOutput/Debug/GioSharp.dll</HintPath>
+      <HintPath>../../GtkSharp/BuildOutput/Debug/GioSharp.dll</HintPath>
     </Reference>
     <Reference Include="PangoSharp">
-      <HintPath>../../../GtkSharp/BuildOutput/Debug/PangoSharp.dll</HintPath>
+      <HintPath>../../GtkSharp/BuildOutput/Debug/PangoSharp.dll</HintPath>
     </Reference>
     <Reference Include="GdkSharp">
-      <HintPath>../../../GtkSharp/BuildOutput/Debug/GdkSharp.dll</HintPath>
+      <HintPath>../../GtkSharp/BuildOutput/Debug/GdkSharp.dll</HintPath>
     </Reference>
     <Reference Include="CairoSharp">
-      <HintPath>../../../GtkSharp/BuildOutput/Debug/CairoSharp.dll</HintPath>
+      <HintPath>../../GtkSharp/BuildOutput/Debug/CairoSharp.dll</HintPath>
     </Reference>
   </ItemGroup>
 

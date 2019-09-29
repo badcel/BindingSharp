@@ -5,8 +5,10 @@ using Moq;
 using MVVMSharp.Test.TestData;
 using System.Windows.Input;
 using MVVMSharp.Gtk;
+using MVVMSharp.Core;
+using MVVMSharp.Test.Core;
 
-namespace MVVMSharp.Test.Gtk.View
+namespace MVVMSharp.Test.Gtk
 {
     [TestClass]
     public class BindToCommandTest : IBinderTest
@@ -14,13 +16,13 @@ namespace MVVMSharp.Test.Gtk.View
         
         protected override IBinder GetObject()
         {
-            return new MVVMSharp.Gtk.BindButtonToCommand(Mock.Of<IButton>());
+            return new BindButtonToCommand(Mock.Of<IButton>());
         }
 
         [TestMethod]
         public void CreateWithoutGtkButtonThrowsArgumentNullException()
         {
-            Assert.ThrowsException<ArgumentNullException>(()=> new MVVMSharp.Gtk.BindButtonToCommand(null));
+            Assert.ThrowsException<ArgumentNullException>(()=> new BindButtonToCommand(null));
         }
 
         [TestMethod]
@@ -29,7 +31,7 @@ namespace MVVMSharp.Test.Gtk.View
             var viewModel = new Mock<TestData.ViewModel.WithCommandProperty>();
             viewModel.Setup(x => x.ObjectProperty).Returns(new object());
 
-            var obj = new MVVMSharp.Gtk.BindButtonToCommand(Mock.Of<IButton>());
+            var obj = new BindButtonToCommand(Mock.Of<IButton>());
 
             Assert.ThrowsException<BindingException>(() => obj.Bind(viewModel.Object, nameof(TestData.ViewModel.WithCommandProperty.ObjectProperty)));
         }
@@ -39,17 +41,18 @@ namespace MVVMSharp.Test.Gtk.View
         [DataRow(false)]
         public void ForwardsICommandCanExecuteChangedEventToReferencedGtkButtonFieldIsSensitiveProperty(bool canExecute)
         {
-            var returnFist = !canExecute;
+            var returnFirst = !canExecute;
             var returnLast = canExecute;
 
             var button = new Mock<IButton>();
             var command = new Mock<ICommand>();
-            command.Setup(x => x.CanExecute(It.IsAny<object>())).Returns(returnFist);
+            command.Setup(x => x.CanExecute(It.IsAny<object>())).Returns(returnFirst);
+
             var viewModel = new Mock<TestData.ViewModel.WithCommandProperty>();
             viewModel.Setup(x => x.CommandProperty).Returns(command.Object);
 
-            var obj = new MVVMSharp.Gtk.BindButtonToCommand(button.Object);
-            obj.Bind(viewModel.Object,nameof(TestData.ViewModel.WithCommandProperty.CommandProperty));
+            var obj = new BindButtonToCommand(button.Object);
+            obj.Bind(viewModel.Object,nameof(viewModel.Object.CommandProperty));
 
             //Setup again, to return a different value, if event is raised
             command.Setup(x => x.CanExecute(It.IsAny<object>())).Returns(returnLast);
@@ -67,22 +70,24 @@ namespace MVVMSharp.Test.Gtk.View
             var button = new Mock<IButton>();
             var command = new Mock<ICommand>();
             command.Setup(x => x.CanExecute(It.IsAny<object>())).Returns(canExecute);
+
             var viewModel = new Mock<TestData.ViewModel.WithCommandProperty>();
             viewModel.Setup(x => x.CommandProperty).Returns(command.Object);
 
             var obj = new MVVMSharp.Gtk.BindButtonToCommand(button.Object);
-            obj.Bind(viewModel.Object, nameof(TestData.ViewModel.WithCommandProperty.CommandProperty));
+            obj.Bind(viewModel.Object, nameof(viewModel.Object.CommandProperty));
 
             command.Verify(x => x.CanExecute(It.IsAny<object>()), Times.Once);
             button.VerifySet(b => b.Sensitive = canExecute);
         }
 
         [TestMethod]
-        public void ForwardGtkButtonFieldClickedEventToReferencedICommandExecuteMethod()
+        public void ForwardGtkButtonFieldClickedEventToICommandExecuteMethod()
         {
             var button = new Mock<IButton>();
             var command = new Mock<ICommand>();
             command.Setup(x => x.CanExecute(It.IsAny<object>())).Returns(true);
+            
             var viewModel = new Mock<TestData.ViewModel.WithCommandProperty>();
             viewModel.Setup(x => x.CommandProperty).Returns(command.Object);
 

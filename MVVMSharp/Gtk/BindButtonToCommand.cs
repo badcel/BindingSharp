@@ -1,6 +1,7 @@
 using System;
 using System.Windows.Input;
 using Gtk;
+using MVVMSharp.Core;
 
 namespace MVVMSharp.Gtk
 {
@@ -19,15 +20,15 @@ namespace MVVMSharp.Gtk
             if(viewModel == null)
                 throw new ArgumentNullException(nameof(viewModel));
 
-            var property = viewModel.GetType().GetProperty(commandPropertyName);
+            var viewModelCommandProperty = viewModel.GetType().GetProperty(commandPropertyName);
 
-            if(property == null)
-                throw new BindingException(button, viewModel, $"Property {commandPropertyName} is not a property of viewmodel.");
+            if(viewModelCommandProperty == null)
+                throw new BindingException(viewModel, $"Property {commandPropertyName} is not a property of {nameof(viewModel)}.");
 
-            if(property.PropertyType != typeof(ICommand))
-                throw new BindingException(button, viewModel, $"Property {commandPropertyName} is not an ICommand.");
+            if(viewModelCommandProperty.PropertyType != typeof(ICommand))
+                throw new BindingException(viewModel, $"Property {commandPropertyName} is not an ICommand.");
 
-            command = (ICommand) property.GetValue(viewModel);
+            command = (ICommand) viewModelCommandProperty.GetValue(viewModel);
             command.CanExecuteChanged += OnCommandCanExectueChanged;
 
             button.Clicked += OnButtonBlicked;

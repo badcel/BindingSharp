@@ -1,9 +1,11 @@
 using Gtk;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using MVVMSharp.Core;
 using MVVMSharp.Gtk;
+using MVVMSharp.Test.TestData;
 
-namespace MVVMSharp.Test.Gtk.View
+namespace MVVMSharp.Test.Gtk
 {
     [TestClass]
     public class WidgetExtensionTest
@@ -11,8 +13,8 @@ namespace MVVMSharp.Test.Gtk.View
         [TestMethod]
         public void BindViewModelIgnoresPropertiesWithoutCommandBindingAttribute()
         {
-            var viewModel = new Mock<TestData.ViewModel.WithCommandProperty>();
-            var view = new TestData.View.WithoutCommandBinding();
+            var viewModel = new Mock<ViewModel.WithCommandProperty>();
+            var view = new View.WithoutCommandBinding();
 
             view.BindViewModel(viewModel.Object);
             
@@ -22,11 +24,11 @@ namespace MVVMSharp.Test.Gtk.View
         [TestMethod]
         public void BindViewModelBindsButtonToICommandOfViewModel()
         {
-            var viewModel = new Mock<TestData.ViewModel.WithCommandProperty>();
+            var viewModel = new Mock<ViewModel.WithCommandProperty>();
             var button = new Mock<IButton>();
             var bindToCommand = new Mock<IBinder>();
 
-            var view = new TestData.View.WithCommandBinding();
+            var view = new View.WithCommandBinding();
             view.Button = button.Object;
 
             var buttonPassed = false;
@@ -41,7 +43,7 @@ namespace MVVMSharp.Test.Gtk.View
             view.BindViewModel(viewModel.Object);
 
             Assert.IsTrue(buttonPassed);
-            bindToCommand.Verify(x => x.Bind(viewModel.Object, nameof(TestData.ViewModel.WithCommandProperty.CommandProperty)));
+            bindToCommand.Verify(x => x.Bind(viewModel.Object, nameof(viewModel.Object.CommandProperty)));
         }
     }
 }
