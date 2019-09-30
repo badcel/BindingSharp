@@ -28,7 +28,8 @@ Add the [nuget package][1] as a reference to your project with the dotnet comman
 ## Using ##
 To use the binding the application must provide the viewmodel to the view to be able to create the binding inside the view.
 
-### Create the View ###
+For a complete sample see the [Sample App](View).
+
 1. Create a view class with a matching glade file which describes the user interface as XML. Inside your view reference some UI widgets in fields. For working examples see the [templates][] of GtkSharp.
 2. Add the _PropertyBindingAttribute_ or _CommandBindingAttribute_ or _ValidationBindingAttribute_ to a widget of your UI
 3. Call _BindViewModel(object viewmodel)_ in your view's constructor to setup the binding
