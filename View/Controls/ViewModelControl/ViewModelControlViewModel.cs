@@ -2,12 +2,17 @@ using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace MVVM
 {
-    public class ViewModelControlViewModel : IViewModel, INotifyPropertyChanged
+    public class ViewModelControlViewModel : IViewModel, INotifyPropertyChanged, INotifyDataErrorInfo
     {
         public event PropertyChangedEventHandler PropertyChanged;
+        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
+
+        private List<string> errors;
 
         public Type View => typeof(ViewModelControl);
 
@@ -42,15 +47,34 @@ namespace MVVM
             }
         }
 
+        public bool HasErrors{ get; private set;} 
+
         public ViewModelControlViewModel()
         {
             myCommand = new Command((o) => ButtonAction());
             myCommand2 = new Command((o) => ButtonAction2());
+
+            errors = new List<string>();
         }
 
         private void ButtonAction2()
         {
-            Console.WriteLine("Action2");
+            AddError(nameof(MyCommand2), "Label defekt");
+        }
+
+        private void AddError(string property, string error)
+        {
+            if(HasErrors)
+            {
+                errors.Clear();
+            }
+            else
+            {
+                errors.Add(error);
+            }
+            HasErrors = !HasErrors;
+            
+            OnErrorsChanged(property);
         }
 
         private void ButtonAction()
@@ -60,9 +84,19 @@ namespace MVVM
             myCommand.SetCanExecute(false);
         }
 
+        public IEnumerable GetErrors(string propertyName)
+        {
+            return errors;
+        }
+
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        protected void OnErrorsChanged([CallerMemberName] string propertyName = null)
+        {
+            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
         }
     }
 }
