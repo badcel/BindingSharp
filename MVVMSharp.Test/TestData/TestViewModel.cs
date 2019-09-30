@@ -1,9 +1,26 @@
+using System;
+using System.Collections;
 using System.ComponentModel;
 
 namespace MVVMSharp.Test.TestData
 {
-    internal class TestViewModel : INotifyPropertyChanged
+    public class TestViewModel : INotifyPropertyChanged, INotifyDataErrorInfo
     {
+        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged
+        {
+            add  { ErrorsChangedEventAdded = true; }
+            remove { ErrorsChangedEventRemoved = true; }
+        }
+        public bool ErrorsChangedEventAdded;
+        public bool ErrorsChangedEventRemoved;
+
+        public bool HasErrors => false;
+
+        public IEnumerable GetErrors(string propertyName)
+        {
+            return default;
+        }
+
         public event PropertyChangedEventHandler PropertyChanged
         {
             add { PropertyChangedEventAdded = true; }

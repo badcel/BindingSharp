@@ -3,7 +3,7 @@ using System.Windows.Input;
 
 namespace MVVMSharp.Test.TestData
 {
-    internal class TestCommand : ICommand
+    public class TestCommand : ICommand
     {
         public event EventHandler CanExecuteChanged
         {

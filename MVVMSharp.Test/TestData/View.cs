@@ -4,49 +4,55 @@ using MVVMSharp.Gtk;
 
 namespace MVVMSharp.Test.TestData
 {
-    internal class View
+    public class View
     {
-        internal class WithoutCommandBinding : IWidget
+        public class WithoutCommandBinding : IWidget
         {
             public event PropertyChangedEventHandler PropertyChanged { add {} remove{} }
 
             public bool Sensitive { get; set; }
 
+            public IStyleContext StyleContext => null;
+
             public IButton Button = null;
         }
 
-        internal class WithCommandBindingWithoutIButton : IWidget
+        public class WithCommandBindingWithoutIButton : IWidget
         {
             public event PropertyChangedEventHandler PropertyChanged {add {} remove {}}
 
             public bool Sensitive { get; set; }
 
+            public IStyleContext StyleContext => null;
+
             [CommandBinding(nameof(TestData.ViewModel.WithCommandProperty.CommandProperty))]
             public object Button = null;
         }
 
-        internal class WithCommandBinding : IWidget
+        public class WithCommandBinding : IWidget
         {
             public event PropertyChangedEventHandler PropertyChanged {add {} remove{}}
             
             public bool Sensitive { get; set; }
 
+            public IStyleContext StyleContext => null;
+
             [CommandBinding(nameof(TestData.ViewModel.WithCommandProperty.CommandProperty))]
             public IButton Button;
         }
 
-        internal interface WithObjectProperty
+        public interface WithObjectProperty
         {
             object ObjectProperty { get; }
         }
 
-        internal interface WidgetWithObjectPropery : IWidget
+        public interface WidgetWithObjectPropery : IWidget
         {
             object ObjectProperty { get; set;}
         }
 
 
-        internal interface WithoutINotifyPropertyChanged
+        public interface WithoutINotifyPropertyChanged
         {
             object ObjectProperty { get; }
         }

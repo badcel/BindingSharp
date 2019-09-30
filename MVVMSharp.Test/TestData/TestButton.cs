@@ -4,7 +4,7 @@ using Gtk;
 
 namespace MVVMSharp.Test.TestData
 {
-    internal class TestButton : IButton
+    public class TestButton : IButton
     {
         public event PropertyChangedEventHandler PropertyChanged {add {} remove {}}
 
@@ -18,5 +18,7 @@ namespace MVVMSharp.Test.TestData
         public bool ClickedEventWasAdded;
 
         public bool Sensitive { get; set;}
+
+        public IStyleContext StyleContext => null;
     }
 }

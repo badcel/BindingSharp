@@ -39,8 +39,9 @@ namespace MVVM
                 p.LoadFromData(reader.ReadToEnd());   
             }
 
-            Button2.StyleContext.AddProvider(p, uint.MaxValue);
-            Button2.StyleContext.AddClass("invalid");
+            IStyleContext sc = Button2.StyleContext;
+            sc.AddProvider(p, uint.MaxValue);
+            sc.AddClass("invalid");
         }
 
         private ViewModelControl(Builder builder) : base(builder.GetObject("ViewModelControl").Handle)

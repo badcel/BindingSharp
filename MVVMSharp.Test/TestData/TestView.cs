@@ -3,7 +3,7 @@ using Gtk;
 
 namespace MVVMSharp.Test.TestData
 {
-    internal class TestWidget : IWidget
+    public class TestWidget : IWidget
     {
         public event PropertyChangedEventHandler PropertyChanged
         {
@@ -16,5 +16,7 @@ namespace MVVMSharp.Test.TestData
 
         public bool TestBool { get; set; }
         public bool Sensitive { get; set; }
+
+        public IStyleContext StyleContext => null;
     }
 }

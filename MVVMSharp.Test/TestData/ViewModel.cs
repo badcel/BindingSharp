@@ -3,20 +3,20 @@ using System.Windows.Input;
 
 namespace MVVMSharp.Test.TestData
 {
-    internal class ViewModel
+    public class ViewModel
     {
-        internal interface WithCommandProperty 
+        public interface WithCommandProperty 
         {
             object ObjectProperty { get; }
             ICommand CommandProperty { get; }
         }
 
-        internal interface WithoutINotifyPropertyChangedImplementation
+        public interface WithoutINotifyPropertyChangedImplementation
         {
             object ObjectProperty { get; }
         }
 
-        internal interface WithINotifyPropertyChangedImplementation : INotifyPropertyChanged
+        public interface WithINotifyPropertyChangedImplementation : INotifyPropertyChanged
         {
             object ObjectProperty { get; set; }
         }
