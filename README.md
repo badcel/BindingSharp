@@ -31,7 +31,6 @@ To use the binding the application must provide the viewmodel to the view to be 
 ### Create the View ###
 1. Create a view class with a matching glade file which describes the user interface as XML. Inside your view reference some UI widgets in fields. For working examples see the [templates][] of GtkSharp.
 2. Add the _PropertyBindingAttribute_ or _CommandBindingAttribute_ or _ValidationBindingAttribute_ to a widget of your UI
-2. Add a dependency in your view's constructor to expect a viewmodel
 3. Call _BindViewModel(object viewmodel)_ in your view's constructor to setup the binding
     
         public class MyWidget : Box
