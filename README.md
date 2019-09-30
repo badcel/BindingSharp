@@ -8,15 +8,15 @@ If you have a .NET Standard 2.0 or .NET CORE application you can port it's view 
 [Gtk]: https://gtk.org
 
 ## Features ##
- * Binds properties of a [GTk.Widget][Gtk.Widget] to a viewmodel with a one-way or two-way binding via the [INotifyPropertyChanged][] interface
+ * Binds properties of a [GTk.Widget][] to a viewmodel with a one-way or two-way binding via the [INotifyPropertyChanged][] interface
  * Special binding for a [Gtk.Button][] which can be bound to an [ICommand][]
- * Planned: Support validation of widgets via the [INotifyDataErrorInfo][] interface
+ * Supports binding of a [GTk.Widget][] to a property of the viewmodel to support validation via the [INotifyDataErrorInfo][] interface
 
- [Gtk.Widget]: https://google.de
- [Gtk.Button]: https://google.de
- [ICommand]: https://google.de
- [INotifyPropertyChanged]: https://google.de
- [INotifyDataErrorInfo]: https://google.de
+ [Gtk.Widget]: https://developer.gnome.org/gtk3/stable/GtkWidget.html
+ [Gtk.Button]: https://developer.gnome.org/gtk3/stable/GtkButton.html
+ [ICommand]: https://docs.microsoft.com/de-de/dotnet/api/system.windows.input.icommand?view=netstandard-2.0
+ [INotifyPropertyChanged]: https://docs.microsoft.com/de-de/dotnet/api/system.componentmodel.inotifypropertychanged?view=netstandard-2.0
+ [INotifyDataErrorInfo]: https://docs.microsoft.com/de-de/dotnet/api/system.componentmodel.inotifydataerrorinfo?view=netstandard-2.0
 
 ## Installing ##
 Add the [nuget package][1] as a reference to your project with the dotnet command
@@ -28,13 +28,9 @@ Add the [nuget package][1] as a reference to your project with the dotnet comman
 ## Using ##
 To use the binding the application must provide the viewmodel to the view to be able to create the binding inside the view.
 
-### Preparation ###
-use helper user controls
-
-
 ### Create the View ###
-1. Create a view class with a matching glade file which describes the user interface as XML. Inside your view reference some UI widgets in fields. For working examples see the [samples][] of GtkSharp.
-2. Add the _PropertyBindingAttribute_ or _CommandBindingAttribute_ to a widget of your UI
+1. Create a view class with a matching glade file which describes the user interface as XML. Inside your view reference some UI widgets in fields. For working examples see the [templates][] of GtkSharp.
+2. Add the _PropertyBindingAttribute_ or _CommandBindingAttribute_ or _ValidationBindingAttribute_ to a widget of your UI
 2. Add a dependency in your view's constructor to expect a viewmodel
 3. Call _BindViewModel(object viewmodel)_ in your view's constructor to setup the binding
     
@@ -46,10 +42,6 @@ use helper user controls
             [CommandBinding(nameof(ViewModelClass.MyCommand))]
             private Button MyButton;
 
-            [UI]
-            [PropertyBinding(nameof(Label.LabelProp), nameof(ViewModelClass.MyLabelText))]
-            private Label MyLabel;
-
             public MyWidget(object viewmodel) : this(new Builder("MyWidget.glade")) 
             { 
                 this.BindViewModel(viewmodel)
@@ -57,7 +49,7 @@ use helper user controls
 
             ...
         }
-[samples]: https://google.de
+[templates]: https://github.com/GtkSharp/GtkSharp/tree/master/Source/Templates/GtkSharp.Template.CSharp/content
 
 ## License ##
-LGPL
+VVM and its related components are licensed under [LGPL v2.0 license](LICENSE).
