@@ -5,16 +5,14 @@ using System.Windows.Input;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace MVVM
+namespace MVVMSharp.Samples
 {
-    public class ViewModelControlViewModel : IViewModel, INotifyPropertyChanged, INotifyDataErrorInfo
+    public class ViewModel : INotifyPropertyChanged, INotifyDataErrorInfo
     {
         public event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
         private List<string> errors;
-
-        public Type View => typeof(ViewModelControl);
 
         private Command myCommand;
         public ICommand MyCommand
@@ -49,7 +47,7 @@ namespace MVVM
 
         public bool HasErrors{ get; private set;} 
 
-        public ViewModelControlViewModel()
+        public ViewModel()
         {
             myCommand = new Command((o) => ButtonAction());
             myCommand2 = new Command((o) => ButtonAction2());

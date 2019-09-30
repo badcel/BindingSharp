@@ -1,7 +1,7 @@
 ﻿using System;
 using Gtk;
 
-namespace MVVM
+namespace MVVMSharp.Samples
 {
     class Program
     {
@@ -13,15 +13,14 @@ namespace MVVM
             var app = new Application("org.GTK.GTK", GLib.ApplicationFlags.None);
             app.Register(GLib.Cancellable.Current);
 
-            var win = new Window("MEIN FENSTER");
+            var win = new Window("Sample app");
             win.DeleteEvent += (o, argss) => Application.Quit();
             app.AddWindow(win);
 
-            var contentControl = new ShowViewModelControl();
-            contentControl.SetContent(new ViewModelControlViewModel());
-            win.Add(contentControl);
-            contentControl.Show();
+            var viewModel = new ViewModel();
+            var view = new View(viewModel);
 
+            win.Add(view);
             win.ShowAll();
             Application.Run();
         }

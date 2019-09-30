@@ -36,10 +36,6 @@
     <EmbeddedResource Include="**\*.glade">
       <LogicalName>%(Filename)%(Extension)</LogicalName>
     </EmbeddedResource>
-    <None Remove="**\*.css" />
-    <EmbeddedResource Include="**\*.css">
-      <LogicalName>%(Filename)%(Extension)</LogicalName>
-    </EmbeddedResource>
   </ItemGroup>
 
 </Project>
