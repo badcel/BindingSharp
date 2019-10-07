@@ -1,11 +1,11 @@
 namespace Binding.Core
 {
-    public interface IBinder 
+    internal interface IBinder 
     {
         void Bind(object target, string property);
     }
 
-    public interface IBinder<T>
+    internal interface IBinder<T>
     {
         void Bind(T target, string property);
     }

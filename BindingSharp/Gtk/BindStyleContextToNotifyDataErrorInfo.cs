@@ -6,7 +6,7 @@ using Binding.Core;
 
 namespace Binding.Gtk
 {
-    public class BindStyleContextToNotifyDataErrorInfo : IBinder, IBinder<INotifyDataErrorInfo>, IDisposable
+    internal partial class BindStyleContextToNotifyDataErrorInfo : IBinder, IBinder<INotifyDataErrorInfo>
     {
         private INotifyDataErrorInfo notifyDataErrorInfo;
         private readonly IStyleContext styleContext;
@@ -56,27 +56,5 @@ namespace Binding.Gtk
                 }
             }
         }
-
-        #region IDisposable Support
-        private bool disposedValue = false;
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    if(notifyDataErrorInfo != null) notifyDataErrorInfo.ErrorsChanged -= OnErrorsChanged;
-                }
-
-                disposedValue = true;
-            }
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-        }
-        #endregion
     }
 }

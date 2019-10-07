@@ -5,7 +5,7 @@ using Binding.Core;
 
 namespace Binding.Gtk
 {
-    public class BindButtonToCommand : IBinder, IDisposable
+    internal partial class BindButtonToCommand : IBinder
     {
         private readonly IButton button;
         private ICommand command;
@@ -47,28 +47,5 @@ namespace Binding.Gtk
         {
             button.Sensitive = command.CanExecute(null);
         }
-
-        #region IDisposable Support
-        private bool disposedValue = false;
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    if(button != null) button.Clicked -= OnButtonBlicked;
-                    if(command != null) command.CanExecuteChanged -= OnCommandCanExectueChanged;
-                }
-
-                disposedValue = true;
-            }
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-        }
-        #endregion
     }
 }

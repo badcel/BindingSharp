@@ -15,7 +15,7 @@ namespace Binding.Gtk
         #region Providers
 
         private static IStyleProvider styleProvider;
-        public static IStyleProvider StyleProvider
+        internal static IStyleProvider StyleProvider
         {
             [ExcludeFromCodeCoverage]
             get
@@ -25,11 +25,11 @@ namespace Binding.Gtk
 
                 return styleProvider;
             }
-            internal set { styleProvider = value; }            
+            set { styleProvider = value; }            
         }
 
         private static Func<IStyleContext, string, IBinder> styleContextBindingProvider;
-        public static Func<IStyleContext, string, IBinder> StyleContextBindingProvider
+        internal static Func<IStyleContext, string, IBinder> StyleContextBindingProvider
         {
             [ExcludeFromCodeCoverage]
             get
@@ -39,11 +39,11 @@ namespace Binding.Gtk
 
                 return styleContextBindingProvider;
             }
-            internal set { styleContextBindingProvider = value; }
+            set { styleContextBindingProvider = value; }
         }
 
         private static Func<IButton, IBinder> commandBindingProvider;
-        public static Func<IButton, IBinder> CommandBindingProvider
+        internal static Func<IButton, IBinder> CommandBindingProvider
         {
             [ExcludeFromCodeCoverage]
             get
@@ -53,11 +53,11 @@ namespace Binding.Gtk
 
                 return commandBindingProvider;
             }
-            internal set { commandBindingProvider = value; }
+            set { commandBindingProvider = value; }
         }
 
         private static Func<IWidget, string, IBinder> widgetBindingProvider;
-        public static Func<IWidget, string, IBinder> WidgetBindingProvider
+        internal static Func<IWidget, string, IBinder> WidgetBindingProvider
         {
             [ExcludeFromCodeCoverage]
             get
@@ -67,7 +67,7 @@ namespace Binding.Gtk
 
                 return widgetBindingProvider;
             }
-            internal set { widgetBindingProvider = value; }
+            set { widgetBindingProvider = value; }
         }
 
         [ExcludeFromCodeCoverage]

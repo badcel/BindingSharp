@@ -4,14 +4,13 @@ using System.Reflection;
 
 namespace Binding.Core
 {
-    public class BindINotifyPropertyChanged : IBinder, IBinder<INotifyPropertyChanged>, IDisposable
+    internal partial class BindINotifyPropertyChanged : IBinder, IBinder<INotifyPropertyChanged>
     {
         private object target;
         private PropertyInfo targetPropertyInfo;
 
         private INotifyPropertyChanged source;
         private PropertyInfo sourcePropertyInfo;
-
 
         public BindINotifyPropertyChanged(INotifyPropertyChanged source, string property)
         {
@@ -62,28 +61,5 @@ namespace Binding.Core
                 sourcePropertyInfo.SetValue(source, value);
             }
         }
-
-        #region IDisposable Support
-        private bool disposedValue = false;
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    if(source != null) source.PropertyChanged -= OnSourcePropertyChanged;
-                    if(target != null && target is INotifyPropertyChanged vmNotify) vmNotify.PropertyChanged -= OnTargetPropertyChanged;
-                }
-
-                disposedValue = true;
-            }
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-        }
-        #endregion
     }
 }

@@ -20,6 +20,7 @@ namespace Binding.Samples
         {
             return canExecute;
         }
+        
         public void SetCanExecute(bool value)
         {
             if(value != canExecute)
