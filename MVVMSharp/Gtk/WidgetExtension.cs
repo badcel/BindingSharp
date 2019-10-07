@@ -103,7 +103,7 @@ namespace Binding.Gtk
         }
         #endregion Providers
 
-        public static void Bind(this IWidget view, object viewModel)
+        public static void Bind(this IWidget view, object obj)
         {
             var flags = System.Reflection.BindingFlags.Public;
             flags |= System.Reflection.BindingFlags.NonPublic;
@@ -115,13 +115,13 @@ namespace Binding.Gtk
             foreach (var viewField in viewFields)
             {
                 if(Attribute.IsDefined(viewField, typeof(CommandBindingAttribute)))
-                    BindCommand(view, viewModel, viewField);
+                    BindCommand(view, obj, viewField);
 
                 if(Attribute.IsDefined(viewField, typeof(PropertyBindingAttribute)))
-                    BindProperty(view, viewModel, viewField);
+                    BindProperty(view, obj, viewField);
 
                 if(Attribute.IsDefined(viewField, typeof(ValidationBindingAttribute)))
-                    BindValidation(view, viewModel, viewField);
+                    BindValidation(view, obj, viewField);
             }
         }
 

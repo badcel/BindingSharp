@@ -33,7 +33,7 @@ For a complete sample see the [Sample App](View).
 
 1. Create a view class with a matching glade file which describes the user interface as XML. Inside your view reference some UI widgets in fields. For working examples see the [templates][] of GtkSharp.
 2. Add the _PropertyBindingAttribute_ or _CommandBindingAttribute_ or _ValidationBindingAttribute_ to a widget of your UI
-3. Call _BindViewModel(object viewmodel)_ in your view's constructor to setup the binding
+3. Call _Bind(object obj)_ in your view's constructor to setup the binding
     
         public class MyWidget : Box
         {
