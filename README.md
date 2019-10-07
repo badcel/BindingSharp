@@ -29,7 +29,7 @@ Currently GtkSharp is missing the support for _INotifyPropertyChanged_ on _GLib.
 ## Using ##
 To use the binding the application must provide the viewmodel to the view to be able to create the binding inside the view.
 
-For a complete sample see the [Sample App](BindingSharp.Test).
+For a complete sample see the [Sample App](BindingSharp.Sample).
 
 1. Create a view class with a matching glade file which describes the user interface as XML. Inside your view reference some UI widgets in fields. For working examples see the [templates][] of GtkSharp.
 2. Add the _PropertyBindingAttribute_ or _CommandBindingAttribute_ or _ValidationBindingAttribute_ to a widget of your UI
