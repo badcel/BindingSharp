@@ -7,7 +7,7 @@ namespace Binding.Test.Core
     [TestClass]
     public abstract class IBinderTest
     {
-        protected abstract IBinder GetObject();
+        internal abstract IBinder GetObject();
 
         [TestMethod]
         public void BindThrowsArgumentNullExceptionIfTargetIsNull()

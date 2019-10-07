@@ -10,7 +10,7 @@ namespace Binding.Test.Core
     [TestClass]
     public class BindTwoINotifyPropertyChangedObjectss : IBinderTest
     {
-        protected override IBinder GetObject()
+        internal override IBinder GetObject()
         {
             return new BindINotifyPropertyChanged(Mock.Of<TestData.View.WidgetWithObjectPropery>(), nameof(TestData.View.WidgetWithObjectPropery.ObjectProperty));
         }

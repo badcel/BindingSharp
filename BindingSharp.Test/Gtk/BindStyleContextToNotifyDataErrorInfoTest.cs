@@ -12,7 +12,7 @@ namespace Binding.Test.Gtk
     [TestClass]
     public class BindStyleContextToNotifyDataErrorInfoTest
     {
-        protected BindStyleContextToNotifyDataErrorInfo GetObject(IStyleContext styleContext = null, string cssClassName = null)
+        internal BindStyleContextToNotifyDataErrorInfo GetObject(IStyleContext styleContext = null, string cssClassName = null)
         {
             if(styleContext == null)
                 styleContext = Mock.Of<IStyleContext>();

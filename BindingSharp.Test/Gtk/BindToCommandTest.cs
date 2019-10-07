@@ -14,7 +14,7 @@ namespace Binding.Test.Gtk
     public class BindToCommandTest : IBinderTest
     {
         
-        protected override IBinder GetObject()
+        internal override IBinder GetObject()
         {
             return new BindButtonToCommand(Mock.Of<IButton>());
         }
