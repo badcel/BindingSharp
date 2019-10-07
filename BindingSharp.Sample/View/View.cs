@@ -10,17 +10,17 @@ namespace Binding.Samples
 {
     public class View : GtkLib.Box
     {
-        [PropertyBinding(nameof(GtkLib.Label.LabelProp), nameof(ViewModel.Label))]
         [UI]
+        [PropertyBinding(nameof(GtkLib.Label.LabelProp), nameof(ViewModel.Label))]
         public GtkLib.Label Label;
 
-        [CommandBinding(nameof(ViewModel.ChangeLabelCommand))]
         [UI]
+        [CommandBinding(nameof(ViewModel.ChangeLabelCommand))]
         public GtkLib.Button ChangeLabelButton;
 
+        [UI]
         [ValidationBinding(nameof(ViewModel.ToggleErrorCommand))]
         [CommandBinding(nameof(ViewModel.ToggleErrorCommand))]
-        [UI]
         public GtkLib.Button ToggleErrorButton;
 
         public View(object viewModel) : this(new GtkLib.Builder("View.glade"))
