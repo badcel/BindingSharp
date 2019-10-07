@@ -25,8 +25,8 @@ namespace Binding.Gtk
             if(viewModelCommandProperty == null)
                 throw new BindingException(viewModel, $"Property {commandPropertyName} is not a property of {nameof(viewModel)}.");
 
-            if(viewModelCommandProperty.PropertyType != typeof(ICommand))
-                throw new BindingException(viewModel, $"Property {commandPropertyName} is not an ICommand.");
+            if(!typeof(ICommand).IsAssignableFrom(viewModelCommandProperty.PropertyType))
+                throw new BindingException(viewModel, $"Property {commandPropertyName} is not an {nameof(ICommand)}.");
 
             command = (ICommand) viewModelCommandProperty.GetValue(viewModel);
             command.CanExecuteChanged += OnCommandCanExectueChanged;
