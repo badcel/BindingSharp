@@ -52,4 +52,4 @@ For a complete sample see the [Sample App](View).
 [templates]: https://github.com/GtkSharp/GtkSharp/tree/master/Source/Templates/GtkSharp.Template.CSharp/content
 
 ## License ##
-VVM and its related components are licensed under [LGPL v2.0 license](LICENSE).
+VVM and its related components are licensed under [LGPL v2.1 license](LICENSE).
