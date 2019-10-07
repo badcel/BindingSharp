@@ -6,8 +6,8 @@
     <property name="can_focus">False</property>
     <property name="orientation">vertical</property>
     <child>
-      <object class="GtkButton" id="Button">
-        <property name="label" translatable="yes">Drück mich nicht</property>
+      <object class="GtkButton" id="ChangeLabelButton">
+        <property name="label" translatable="yes">Change label</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
@@ -19,8 +19,8 @@
       </packing>
     </child>
     <child>
-      <object class="GtkButton" id="Button2">
-        <property name="label" translatable="yes">222</property>
+      <object class="GtkButton" id="ToggleErrorButton">
+        <property name="label" translatable="yes">Toggle error</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
@@ -35,7 +35,7 @@
       <object class="GtkLabel" id="Label">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="label" translatable="yes">DefaultTExt</property>
+        <property name="label" translatable="yes">Text</property>
       </object>
       <packing>
         <property name="expand">False</property>

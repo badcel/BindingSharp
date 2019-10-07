@@ -7,26 +7,13 @@ using System.Collections.Generic;
 
 namespace Binding.Samples
 {
-    public class ViewModel : INotifyPropertyChanged, INotifyDataErrorInfo
+    public partial class ViewModel : INotifyPropertyChanged, INotifyDataErrorInfo
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
+        public Command ChangeLabelCommand { get; }
 
-        private List<string> errors;
+        public Command ToggleErrorCommand { get; }
 
-        private Command myCommand;
-        public ICommand MyCommand
-        {
-            get { return myCommand; }    
-        }
-
-        private Command myCommand2;
-        public ICommand MyCommand2
-        {
-            get { return myCommand2; }    
-        }
-
-        private string label = "MEIN LABEL NEU";
+        private string label;
         public string Label
         {
             get { return label; }
@@ -35,66 +22,26 @@ namespace Binding.Samples
                 if(label != value)
                 {
                     label = value;
-                    Console.WriteLine("VIEWMODEL: " + value);
-
-                    label = value + value;
-                    Console.WriteLine("CHanged " + label);
                     OnPropertyChanged();
                 }
-
             }
         }
-
-        public bool HasErrors{ get; private set;} 
 
         public ViewModel()
         {
-            myCommand = new Command((o) => ButtonAction());
-            myCommand2 = new Command((o) => ButtonAction2());
-
-            errors = new List<string>();
+            ChangeLabelCommand = new Command((o) => ChangeLabelText());
+            ToggleErrorCommand = new Command((o) => ToggleError());
         }
 
-        private void ButtonAction2()
+        private void ToggleError()
         {
-            AddError(nameof(MyCommand2), "Label defekt");
+            ToggleError(nameof(ToggleErrorCommand), "Error");
         }
 
-        private void AddError(string property, string error)
+        private void ChangeLabelText()
         {
-            if(HasErrors)
-            {
-                errors.Clear();
-            }
-            else
-            {
-                errors.Add(error);
-            }
-            HasErrors = !HasErrors;
-            
-            OnErrorsChanged(property);
-        }
-
-        private void ButtonAction()
-        {
-            Console.WriteLine("ViewModel: Button clicked");
-            Label = "Test";
-            myCommand.SetCanExecute(false);
-        }
-
-        public IEnumerable GetErrors(string propertyName)
-        {
-            return errors;
-        }
-
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        protected void OnErrorsChanged([CallerMemberName] string propertyName = null)
-        {
-            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
+            Label = "New label text";
+            ChangeLabelCommand.SetCanExecute(false);
         }
     }
 }
