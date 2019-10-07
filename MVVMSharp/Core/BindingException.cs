@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace MVVMSharp.Core
+namespace Binding.Core
 {
     public class BindingException : Exception
     {

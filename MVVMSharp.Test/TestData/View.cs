@@ -1,8 +1,8 @@
 using System.ComponentModel;
 using Gtk;
-using MVVMSharp.Gtk;
+using Binding.Gtk;
 
-namespace MVVMSharp.Test.TestData
+namespace Binding.Test.TestData
 {
     public class View
     {

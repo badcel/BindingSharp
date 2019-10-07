@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel;
 using Gtk;
 
-namespace MVVMSharp.Test.TestData
+namespace Binding.Test.TestData
 {
     public class TestButton : IButton
     {

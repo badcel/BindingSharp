@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using System.Windows.Input;
 
-namespace MVVMSharp.Test.TestData
+namespace Binding.Test.TestData
 {
     public class ViewModel
     {

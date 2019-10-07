@@ -2,13 +2,13 @@ using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Gtk;
 using Moq;
-using MVVMSharp.Test.TestData;
+using Binding.Test.TestData;
 using System.Windows.Input;
-using MVVMSharp.Gtk;
-using MVVMSharp.Core;
-using MVVMSharp.Test.Core;
+using Binding.Gtk;
+using Binding.Core;
+using Binding.Test.Core;
 
-namespace MVVMSharp.Test.Gtk
+namespace Binding.Test.Gtk
 {
     [TestClass]
     public class BindToCommandTest : IBinderTest
@@ -74,7 +74,7 @@ namespace MVVMSharp.Test.Gtk
             var viewModel = new Mock<TestData.ViewModel.WithCommandProperty>();
             viewModel.Setup(x => x.CommandProperty).Returns(command.Object);
 
-            var obj = new MVVMSharp.Gtk.BindButtonToCommand(button.Object);
+            var obj = new Binding.Gtk.BindButtonToCommand(button.Object);
             obj.Bind(viewModel.Object, nameof(viewModel.Object.CommandProperty));
 
             command.Verify(x => x.CanExecute(It.IsAny<object>()), Times.Once);
@@ -91,7 +91,7 @@ namespace MVVMSharp.Test.Gtk
             var viewModel = new Mock<TestData.ViewModel.WithCommandProperty>();
             viewModel.Setup(x => x.CommandProperty).Returns(command.Object);
 
-            var obj = new MVVMSharp.Gtk.BindButtonToCommand(button.Object);
+            var obj = new Binding.Gtk.BindButtonToCommand(button.Object);
             obj.Bind(viewModel.Object, nameof(TestData.ViewModel.WithCommandProperty.CommandProperty));
 
             command.Verify(x => x.Execute(It.IsAny<object>()), Times.Never);
@@ -103,7 +103,7 @@ namespace MVVMSharp.Test.Gtk
         public void DisposeDeregistersButtonClickedEvent()
         {
             var button = new TestButton();
-            var obj = new MVVMSharp.Gtk.BindButtonToCommand(button);
+            var obj = new Binding.Gtk.BindButtonToCommand(button);
 
             obj.Dispose();
 
@@ -117,7 +117,7 @@ namespace MVVMSharp.Test.Gtk
             var viewModel = new Mock<TestData.ViewModel.WithCommandProperty>();
             viewModel.Setup(x => x.CommandProperty).Returns(command);
 
-            var obj = new MVVMSharp.Gtk.BindButtonToCommand(Mock.Of<IButton>());
+            var obj = new Binding.Gtk.BindButtonToCommand(Mock.Of<IButton>());
             obj.Bind(viewModel.Object, nameof(TestData.ViewModel.WithCommandProperty.CommandProperty));
 
             obj.Dispose();

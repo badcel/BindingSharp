@@ -3,10 +3,10 @@ using System.IO;
 using System.Reflection;
 using GLib;
 using GtkLib = Gtk;
-using MVVMSharp.Gtk;
+using Binding.Gtk;
 using UI = Gtk.Builder.ObjectAttribute;
 
-namespace MVVMSharp.Samples
+namespace Binding.Samples
 {
     public class View : GtkLib.Box
     {
@@ -26,7 +26,7 @@ namespace MVVMSharp.Samples
 
         public View(object viewModel) : this(new GtkLib.Builder("View.glade"))
         {
-            this.BindViewModel(viewModel);
+            this.Bind(viewModel);
         }
 
         private View(GtkLib.Builder builder) : base(builder.GetObject("View").Handle)

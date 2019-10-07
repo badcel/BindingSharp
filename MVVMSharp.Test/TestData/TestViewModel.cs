@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.ComponentModel;
 
-namespace MVVMSharp.Test.TestData
+namespace Binding.Test.TestData
 {
     public class TestViewModel : INotifyPropertyChanged, INotifyDataErrorInfo
     {

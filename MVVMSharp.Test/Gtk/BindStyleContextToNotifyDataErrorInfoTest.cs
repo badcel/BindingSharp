@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using Gtk;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using MVVMSharp.Gtk;
-using MVVMSharp.Test.TestData;
+using Binding.Gtk;
+using Binding.Test.TestData;
 
-namespace MVVMSharp.Test.Gtk
+namespace Binding.Test.Gtk
 {
     [TestClass]
     public class BindStyleContextToNotifyDataErrorInfoTest

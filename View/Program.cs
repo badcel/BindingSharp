@@ -1,7 +1,7 @@
 ﻿using System;
 using Gtk;
 
-namespace MVVMSharp.Samples
+namespace Binding.Samples
 {
     class Program
     {

@@ -1,9 +1,9 @@
 using System;
 using System.Windows.Input;
 using Gtk;
-using MVVMSharp.Core;
+using Binding.Core;
 
-namespace MVVMSharp.Gtk
+namespace Binding.Gtk
 {
     public class BindButtonToCommand : IBinder, IDisposable
     {

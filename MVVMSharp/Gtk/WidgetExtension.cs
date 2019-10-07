@@ -4,11 +4,11 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reflection;
 using Gtk;
-using MVVMSharp.Core;
+using Binding.Core;
 
-namespace MVVMSharp.Gtk
+namespace Binding.Gtk
 {
-    public static class WidgetViewModelBindingExtension
+    public static class WidgetExtension
     {
         private static Dictionary<IWidget, HashSet<IBinder>>  bindings = new Dictionary<IWidget, HashSet<IBinder>>();
 
@@ -28,7 +28,6 @@ namespace MVVMSharp.Gtk
             internal set { styleProvider = value; }            
         }
 
-
         private static Func<IStyleContext, string, IBinder> styleContextBindingProvider;
         public static Func<IStyleContext, string, IBinder> StyleContextBindingProvider
         {
@@ -42,6 +41,7 @@ namespace MVVMSharp.Gtk
             }
             internal set { styleContextBindingProvider = value; }
         }
+
         private static Func<IButton, IBinder> commandBindingProvider;
         public static Func<IButton, IBinder> CommandBindingProvider
         {
@@ -103,7 +103,7 @@ namespace MVVMSharp.Gtk
         }
         #endregion Providers
 
-        public static void BindViewModel(this IWidget view, object viewModel)
+        public static void Bind(this IWidget view, object viewModel)
         {
             var flags = System.Reflection.BindingFlags.Public;
             flags |= System.Reflection.BindingFlags.NonPublic;

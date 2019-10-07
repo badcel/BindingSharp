@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Input;
 
-namespace MVVMSharp.Samples 
+namespace Binding.Samples 
 {
     public class Command : ICommand
     {

@@ -1,8 +1,8 @@
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MVVMSharp.Core;
+using Binding.Core;
 
-namespace MVVMSharp.Test.Core
+namespace Binding.Test.Core
 {
     [TestClass]
     public abstract class IBinderTest

@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel;
 using System.Reflection;
 
-namespace MVVMSharp.Core
+namespace Binding.Core
 {
     public class BindINotifyPropertyChanged : IBinder, IBinder<INotifyPropertyChanged>, IDisposable
     {

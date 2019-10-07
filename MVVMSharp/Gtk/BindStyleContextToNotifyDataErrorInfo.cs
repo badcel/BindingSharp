@@ -2,9 +2,9 @@ using System;
 using System.ComponentModel;
 using System.Linq;
 using Gtk;
-using MVVMSharp.Core;
+using Binding.Core;
 
-namespace MVVMSharp.Gtk
+namespace Binding.Gtk
 {
     public class BindStyleContextToNotifyDataErrorInfo : IBinder, IBinder<INotifyDataErrorInfo>, IDisposable
     {

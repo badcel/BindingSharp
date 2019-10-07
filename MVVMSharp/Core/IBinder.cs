@@ -1,4 +1,4 @@
-namespace MVVMSharp.Core
+namespace Binding.Core
 {
     public interface IBinder 
     {

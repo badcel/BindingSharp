@@ -1,6 +1,6 @@
 using System;
 
-namespace MVVMSharp.Gtk
+namespace Binding.Gtk
 {
     [AttributeUsage(AttributeTargets.Field)]
     public class CommandBindingAttribute : Attribute

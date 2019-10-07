@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using Gtk;
 
-namespace MVVMSharp.Test.TestData
+namespace Binding.Test.TestData
 {
     public class TestWidget : IWidget
     {

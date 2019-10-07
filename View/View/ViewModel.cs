@@ -5,7 +5,7 @@ using System.Windows.Input;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace MVVMSharp.Samples
+namespace Binding.Samples
 {
     public class ViewModel : INotifyPropertyChanged, INotifyDataErrorInfo
     {

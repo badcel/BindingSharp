@@ -2,10 +2,10 @@ using System;
 using System.ComponentModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using MVVMSharp.Core;
-using MVVMSharp.Test.TestData;
+using Binding.Core;
+using Binding.Test.TestData;
 
-namespace MVVMSharp.Test.Core
+namespace Binding.Test.Core
 {
     [TestClass]
     public class BindTwoINotifyPropertyChangedObjectss : IBinderTest
