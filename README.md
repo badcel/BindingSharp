@@ -18,14 +18,6 @@ If you have a .NET Standard 2.0 or .NET CORE application you can port it's view 
  [INotifyPropertyChanged]: https://docs.microsoft.com/de-de/dotnet/api/system.componentmodel.inotifypropertychanged?view=netstandard-2.0
  [INotifyDataErrorInfo]: https://docs.microsoft.com/de-de/dotnet/api/system.componentmodel.inotifydataerrorinfo?view=netstandard-2.0
 
-## Installing ##
-~~Add the nuget package as a reference to your project with the dotnet command.~~
-
-Currently GtkSharp is missing the support for _INotifyPropertyChanged_ on _GLib.Object_. There is a [pull request][1] to add this feature. Until the pull request is merged you can use a custom version from GtkSharp from [my temporary fork][2].
-
-[1]: https://github.com/GtkSharp/GtkSharp/pull/103
-[2]: https://github.com/badcel/GtkSharp/tree/InterfaceSupport
-
 ## Using ##
 To use the binding the application must provide the viewmodel to the view to be able to create the binding inside the view.
 
@@ -51,6 +43,33 @@ For a complete sample see the [Sample App](BindingSharp.Sample).
             ...
         }
 [templates]: https://github.com/GtkSharp/GtkSharp/tree/master/Source/Templates/GtkSharp.Template.CSharp/content
+
+## Building from source ##
+
+---
+**Note**
+
+Currently GtkSharp is missing the support for _INotifyPropertyChanged_ on _GLib.Object_.
+
+There is a [pull request][1] to add this feature. Until the pull request is merged you can use a custom version from GtkSharp from [my temporary fork][2].
+
+To compile the code checkout the GTKSharp fork and put it parallel to this repository (see references in _*.csproj_ files)
+
+---
+
+There are 3 projects inside the repository:
+ - **BindingSharp:** Project source
+ - **BindingSharp.Sample:** Example gtk application
+ - **BindingSharp.Test:** Unit tests
+
+ To build the source code run `dotnet build` in the corresponding project folder.
+
+ To run the sample app execute `dotnet run` in the BindingSharp.Sample folder.
+ 
+ To test the code run `dotnet test` in the BindingSharp.Test folder.
+
+[1]: https://github.com/GtkSharp/GtkSharp/pull/103
+[2]: https://github.com/badcel/GtkSharp/tree/InterfaceSupport
 
 ## License ##
 BindingSharp and its related components are licensed under [LGPL v2.1 license](LICENSE).
