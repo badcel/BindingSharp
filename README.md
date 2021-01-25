@@ -1,5 +1,7 @@
 # BindingSharp # 
 
+> Note: As GtkSharp will probably not gain support for `INotifyPropertyChanged` this project will be rebased on [gir.core](https://github.com/gircore/gir.core) as it's successor as soon as there are Nuget packages available.
+
 BindingSharp enables MVVM-Style programming with [GTKSharp][]. It is a library to bind properties of a GTK widget to a viewmodel. 
 
 If you have a .NET Standard 2.0 or .NET CORE application you can port it's view to [GTK][] and reuse the rest of your code to be deployed on Windows, Linux and MacOs with differnt native UI toolkits.
